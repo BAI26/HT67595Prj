@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "*.bin": "plaintext",
+        "*.rtf": "armabin",
+        "cstddef": "cpp",
+        "limits": "cpp",
+        "flash.h": "c",
+        "historical_data_process.h": "c",
+        "app_cfg.h": "c",
+        "ratio": "c",
+        "reght32f675x5.h": "c",
+        "string.h": "c",
+        "ble_peripheral.h": "c",
+        "stdint.h": "c",
+        "afe_protocol.h": "c",
+        "hw_flash.h": "c"
+    }
+}

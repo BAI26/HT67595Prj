@@ -1,0 +1,55 @@
+/**
+ *  Firmware Disclaimer Information
+ *
+ *  1. The customer hereby acknowledges and agrees that the program technical documentation, including the
+ *     code, which is supplied by BEST HEALTH ELECTRONIC Inc., (hereinafter referred to as BestHealth) is the
+ *     proprietary and confidential intellectual property of BestHealth, and is protected by copyright law and
+ *     other intellectual property laws.
+ *
+ *  2. The customer hereby acknowledges and agrees that the program technical documentation, including the
+ *     code, is confidential information belonging to BestHealth, and must not be disclosed to any third parties
+ *     other than BestHealth and the customer.
+ *
+ *  3. The program technical documentation, including the code, is provided and for customer reference
+ *     only. After delivery by BestHealth, the customer shall use the program technical documentation, including
+ *     the code, at their own risk. BestHealth disclaims any expressed, implied or statutory warranties, including
+ *     the warranties of merchantability, satisfactory quality and fitness for a particular purpose.
+ *
+ *  <h2><center>Copyright (C) BEST HEALTH ELECTRONIC Inc. All rights reserved</center></h2>
+ */
+#include <stdint.h>
+#include "..\..\..\driver\wdt.h"
+#include "..\..\..\driver\Oscillators.h"
+#include "..\..\..\driver\AfePower.h"
+#include "..\..\..\driver\Gpio.h"
+
+void main()
+{
+    // 判斷是否為上電復位或者非正常情況下的復位, 如果是上電復位，執行上電復位初始化，反之執行WDT溢出初始化
+    if (_to == 0 || _pdf == 0)
+    {
+        // config sys clock
+        Oscillators_Cfg();
+        // Wdt config
+        Wdt_Enable(WDT_TIME_125MS);
+        // config IO 请根据实际硬件调整，未使用的IO可以配置为输出Low(上电默认为输入浮空，若电平未固定可能会有漏电流)
+        _pac = 0x00;
+        _pa  = 0x00;
+        _pbc = 0x00;
+        _pb  = 0x00;
+        // Afe Power config
+        PIN_PA1_AN1();
+        PIN_PA3_AN0();
+    }
+    else
+    {
+        // WDT溢出復位初始化
+        GCC_CLRWDT();
+    }
+    while (1)
+    {
+        GCC_CLRWDT();
+        Wdt_Disable();
+        GCC_HALT();
+    }
+}

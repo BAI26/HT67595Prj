@@ -1,0 +1,716 @@
+
+Linker Version 8.7.7.220718
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\STARTUP1_L.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\MAIN.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\SYS_INIT.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\OSCILLATORS.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\RAM.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\EEPROM.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\IAP.OBJ
+
+Input Library File: D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB
+Input Library File: D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\v3_lmrsc.lib
+
+
+     Bank    Start     End      Length     Class    AvgIns    Name
+     00h     0000h     0000h    0001h      CODE               @code (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\MAIN.OBJ)
+     00h     0001h     0001h    0001h      CODE               @start (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\MAIN.OBJ)
+     00h     0002h     000bh    000ah      CODE               _Gpio_PowerOnInit (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\SYS_INIT.OBJ)
+     00h     000ch     000fh    0004h      CODE               @ADC_Auto_Mode_ISR_code (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     0010h     0013h    0004h      CODE               @ADC_ISR_code (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     0014h     0021h    000eh      CODE               _Work_Mode_Polling (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     0022h     002dh    000ch      CODE               _DRDY_Ready (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     0030h     0033h    0004h      CODE               @UART_ISR_code (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     00h     0034h     0037h    0004h      CODE               @ADC_Average_ISR_code (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     0038h     0086h    004fh      CODE               _main (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\MAIN.OBJ)
+     00h     0087h     00b0h    002ah      CODE               _Sys_ReadCalibratePara (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     00b1h     010eh    005eh      CODE               _TemperatureStart (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     010fh     018eh    0080h      CODE               _CurrentWe1Start (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     018fh     02a3h    0115h      CODE               _TemperaturePolling (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     02a4h     04a5h    0202h      CODE               _CurrentWe1Polling (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     04a6h     04f4h    004fh      CODE               _ThirdElAfeInit (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     04f5h     0526h    0032h      CODE               _Sys_Afe (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     0527h     059dh    0077h      CODE               _Sys_Calibrite (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     059eh     05ach    000fh      CODE               _Init_AFE (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     05adh     05cah    001eh      CODE               ___GetCheckLRC_constprop_0 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     05cbh     0604h    003ah      CODE               _TxAfeSetParameter (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     0605h     0643h    003fh      CODE               _TxCalVoltage (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     0644h     06bah    0077h      CODE               _TxCalCurrent (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     06bbh     0722h    0068h      CODE               _TxRestartNum (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     0723h     07a8h    0086h      CODE               _TxAfeMeasureData (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     07a9h     0820h    0078h      CODE               _ProtocolUnPack (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     0821h     0bach    038ch      CODE               _Protocol_ReceiveLoop (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     0badh     0bb8h    000ch      CODE               _Protocol_RxLoop (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     0bb9h     0c1ch    0064h      CODE               _Protocol_TxLoop (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     0c1dh     0c4bh    002fh      CODE               _Sys_PowerOnInit (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\SYS_INIT.OBJ)
+     00h     0c4ch     0c76h    002bh      CODE               _Enter_Halt (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\SYS_INIT.OBJ)
+     00h     0c77h     0c79h    0003h      CODE               _WakeUpInit (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\SYS_INIT.OBJ)
+     00h     0c7ah     0c8eh    0015h      CODE               _Oscillators_Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\OSCILLATORS.OBJ)
+     00h     0c8fh     0c92h    0004h      CODE               _SetHaltMode (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\OSCILLATORS.OBJ)
+     00h     0c93h     0cb1h    001fh      CODE               _Ram_Clear (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\RAM.OBJ)
+     00h     0cb2h     0cfch    004bh      CODE               _Uart_Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     00h     0cfdh     0d1ch    0020h      CODE               _Uart_TxByte_Interrupt (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     00h     0d1dh     0d66h    004ah      CODE               _Uart_IsAvailable_ReadByte (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     00h     0d67h     0e0bh    00a5h      CODE               _UART_ISR (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     00h     0e0ch     0e2ah    001fh      CODE               _Eeprom_ReadByte (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\EEPROM.OBJ)
+     00h     0e2bh     0e69h    003fh      CODE               _Eeprom_ReadBuff (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\EEPROM.OBJ)
+     00h     0e6ah     0ea0h    0037h      CODE               _Eeprom_WriteByte (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\EEPROM.OBJ)
+     00h     0ea1h     0ee1h    0041h      CODE               _Eeprom_WriteBuf (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\EEPROM.OBJ)
+     00h     0ee2h     1031h    0150h      CODE               _Adc24_Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     1032h     1039h    0008h      CODE               _Adc24_Enable (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     103ah     103fh    0006h      CODE               _ADC_Auto_Mode_ISR (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     1040h     1076h    0037h      CODE               _ADC_Average_ISR (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     1077h     10abh    0035h      CODE               _ADC_ISR (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     10ach     10c4h    0019h      CODE               _VirefCfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     10c5h     10dah    0016h      CODE               _Dac1Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     10dbh     10f0h    0016h      CODE               _Dac2Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     10f1h     1106h    0016h      CODE               _Dac3Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     1107h     113fh    0039h      CODE               _Opa1Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     1140h     117ah    003bh      CODE               _Opa2Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     117bh     118ch    0012h      CODE               _Opa3Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     118dh     11c6h    003ah      CODE               _ThirdElAfeCfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     11c7h     120ch    0046h      CODE               _FourElAfeCfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     120dh     1236h    002ah      CODE               _Disable_AFE (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     1237h     1254h    001eh      CODE               _ConfigureViref (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     1255h     1260h    000ch      CODE               _ConfigureDAC1 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     1261h     126ch    000ch      CODE               _ConfigureDAC2 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     126dh     1278h    000ch      CODE               _ConfigureDAC3 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     1279h     1286h    000eh      CODE               _builtin_holtek_delay_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     1287h     12a5h    001fh      CODE               _builtin_holtek_mulsi3_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     12a6h     1306h    0061h      CODE               _builtin_holtek_divmodsi4_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     1307h     1309h    0003h      CODE               _CROM2PROM (CROM2PROM)
+     00h     00bbh     00bbh    0001h      DATA     211       @data_ra (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00bch     00bch    0001h      DATA     217       @data_rb (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00bdh     00bdh    0001h      DATA     163       @data_rc (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00beh     00beh    0001h      DATA     130       @data_rd (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00bfh     00bfh    0001h      DATA     125       @data_re (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00c0h     00c0h    0001h      DATA     57        @data_rf (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00c1h     00c1h    0001h      DATA     57        @data_rg (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00c2h     00c2h    0001h      DATA     16        @data_rh (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00c3h     00c3h    0001h      DATA     2         @data_r130 (isr:ra~rh)
+     00h     00c4h     00c4h    0001h      DATA     2         @data_r230 (isr:ra~rh)
+     00h     00c5h     00c5h    0001h      DATA     5         @data_ra30 (isr:ra~rh)
+     00h     00c6h     00c6h    0001h      DATA     10        @data_rc30 (isr:ra~rh)
+     00h     00c7h     00c7h    0001h      DATA     10        @data_rb30 (isr:ra~rh)
+     00h     00c8h     00c8h    0001h      DATA     6         @data_rd30 (isr:ra~rh)
+     00h     00c9h     00c9h    0001h      DATA     6         @data_re30 (isr:ra~rh)
+     00h     00cah     00cah    0001h      DATA     2         @data_rf30 (isr:ra~rh)
+     00h     00cbh     00cbh    0001h      DATA     2         @data_rg30 (isr:ra~rh)
+     00h     00cch     00cch    0001h      DATA     2         @data_r10c (isr:ra~rh)
+     00h     00cdh     00cdh    0001h      DATA     2         @data_r20c (isr:ra~rh)
+     00h     00ceh     00ceh    0001h      DATA     2         @data_r134 (isr:ra~rh)
+     00h     00cfh     00cfh    0001h      DATA     2         @data_r234 (isr:ra~rh)
+     00h     00d0h     00d0h    0001h      DATA     2         @data_r110 (isr:ra~rh)
+     00h     00d1h     00d1h    0001h      DATA     2         @data_r210 (isr:ra~rh)
+     00h     00f8h     00f9h    0002h      DATA     42        @HCCINIT0_cgmApiP (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     00fah     00fah    0001h      DATA     9         @HCCINIT0_read_write (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00fbh     00fbh    0001h      DATA     8         @HCCINIT0_uartRevState (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00fch     00feh    0003h      DATA     7.3333    @HCCINIT0_deviceApi (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00ffh     00ffh    0001h      DATA     7         @HCCINIT0_uartRxCount (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     01h     0092h     0098h    0007h      DATA     10.143    @HCCINIT0_adc24SourceData (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     01h     0099h     009ah    0002h      DATA     7         @HCCINIT0_parameter_value (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     01h     009bh     009ch    0002h      DATA     7         @HCCINIT0_queue_out (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     01h     009dh     009eh    0002h      DATA     7         @HCCINIT0_queue_in (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     01h     009fh     00a5h    0007h      DATA     5.8571    @HCCINIT0_uartStatus (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     01h     00a6h     00a6h    0001h      DATA     5         @HCCINIT0_uartCmd (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     01h     00a7h     00a7h    0001h      DATA     5         @HCCINIT0_read_write_result (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     01h     00a8h     00a8h    0001h      DATA     3         @HCCINIT0_isWork (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\MAIN.OBJ)
+     01h     00a9h     00a9h    0001h      DATA     3         @HCCINIT0_uartDataLen (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     01h     00aah     00abh    0002h      DATA     3         @HCCINIT0_adcAutoModeBufP (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     01h     00ach     00ach    0001h      DATA     2         @HCCINIT0_parameter_address (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     01h     00adh     00cch    0020h      DATA     1.8125    @HCCINIT0_txBuf (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     01h     00cdh     00cdh    0001h      DATA     1         @HCCINIT0_isNotFirstOffsetWe1 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     01h     00ceh     00d1h    0004h      DATA     1         @HCCINIT0_lastNaWe1Raw (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     01h     00d2h     00d2h    0001h      DATA     1         @HCCINIT0_adcCntWE1 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     01h     00d3h     00d6h    0004h      DATA     1         @HCCINIT0_adcAvgWE1 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     01h     00d7h     00dah    0004h      DATA     1         @HCCINIT0_sum (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     01h     00dbh     00dbh    0001h      DATA     1         @HCCINIT0_isWaitingBleRespond (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     01h     00dch     00dch    0001h      DATA     1         @HCCINIT0_isDeepSleep (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     01h     00ddh     00fch    0020h      DATA     0.2812    @HCCINIT0_rxBuf (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     01h     00fdh     00feh    0002h      DATA     0         @HCCINIT0_Temp (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     01h     00ffh     00ffh    0001h      DATA     2         @data_r330 (isr:ra~rh)
+     02h     0080h     00d3h    0054h      DATA     0         @HCCINIT0_adc24SourceDataBuf (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     02h     00d4h     00f3h    0020h      DATA     0         @HCCINIT0_queueBuf (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\SYS_INIT.OBJ)
+     02h     00f4h     00f4h    0001h      DATA     2         @data_r430 (isr:ra~rh)
+     02h     00f5h     00f5h    0001h      DATA     2         @data_r530 (isr:ra~rh)
+     02h     00f6h     00f6h    0001h      DATA     2         @data_r630 (isr:ra~rh)
+
+     Local Sections
+
+     Bank    Start     End      Length     Class    AvgIns    Name
+     00h     00f8h     00f8h    0000h      LOCAL    0         @dummy (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\MAIN.OBJ)
+     00h     00f4h     00f7h    0004h      LOCAL    3         _main (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\MAIN.OBJ)
+     00h     00d5h     00d7h    0003h      LOCAL    1.3333    _Sys_PowerOnInit (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\SYS_INIT.OBJ)
+     00h     00d2h     00d3h    0002h      LOCAL    8         _Oscillators_Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\OSCILLATORS.OBJ)
+     00h     00d2h     00d2h    0000h      LOCAL    0         _Crom2Prom (CROM2PROM)
+     00h     00d2h     00d2h    0000h      LOCAL    0         _Ram_Clear (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\RAM.OBJ)
+     00h     00d2h     00d2h    0000h      LOCAL    0         _Gpio_PowerOnInit (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\SYS_INIT.OBJ)
+     00h     00d2h     00d4h    0003h      LOCAL    2         _Uart_Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     00h     00dfh     00dfh    0000h      LOCAL    0         _Sys_ReadCalibratePara (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     00d6h     00deh    0009h      LOCAL    9.8889    _Eeprom_ReadBuff (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\EEPROM.OBJ)
+     00h     00d2h     00d5h    0004h      LOCAL    3.5       _Eeprom_ReadByte (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\EEPROM.OBJ)
+     00h     00f2h     00f2h    0000h      LOCAL    0         _Init_AFE (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     00f1h     00f1h    0001h      LOCAL    3         _Work_Mode_Polling (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     00f1h     00f1h    0000h      LOCAL    0         _Sys_Calibrite (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     01h     0080h     0091h    0012h      LOCAL    1         _ThirdElAfeInit (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     00dfh     00f0h    0012h      LOCAL    2.4444    _ThirdElAfeCfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d2h     00deh    000dh      LOCAL    4.3077    _VirefCfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d2h     00d4h    0003h      LOCAL    5         _Dac1Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d2h     00d4h    0003h      LOCAL    4         _Dac3Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d2h     00d4h    0003h      LOCAL    4.3333    _Opa1Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d2h     00d6h    0005h      LOCAL    2.2       _Opa3Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d9h     00e1h    0009h      LOCAL    2         _CurrentWe1Start (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     00d2h     00d8h    0007h      LOCAL    5.8571    _Adc24_Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     00d2h     00d8h    0007h      LOCAL    3         _Adc24_Enable (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     00e0h     00efh    0010h      LOCAL    4.25      _CurrentWe1Polling (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     00d2h     00dfh    000eh      LOCAL    10.5      _builtin_holtek_divmodsi4_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00d2h     00ddh    000ch      LOCAL    6.0833    _builtin_holtek_mulsi3_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00d2h     00d2h    0000h      LOCAL    0         _DRDY_Ready (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00dah     00e2h    0009h      LOCAL    11.222    _Eeprom_WriteBuf (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\EEPROM.OBJ)
+     00h     00d6h     00d9h    0004h      LOCAL    3         _Eeprom_WriteByte (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\EEPROM.OBJ)
+     00h     00d2h     00d2h    0001h      LOCAL    6         _builtin_holtek_delay_isr00 (D:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00f1h     00f1h    0000h      LOCAL    0         _Sys_Afe (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     00d9h     00e1h    0009h      LOCAL    2         _TemperatureStart (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     00e0h     00ebh    000ch      LOCAL    3         _TemperaturePolling (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\WORK_MODE_POLLING.OBJ)
+     00h     00f3h     00f3h    0001h      LOCAL    1         _Protocol_RxLoop (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00edh     00f2h    0006h      LOCAL    3.3333    _Protocol_ReceiveLoop (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00d5h     00d6h    0002h      LOCAL    5         _ProtocolUnPack (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00d2h     00d4h    0003h      LOCAL    8.3333    ___GetCheckLRC_constprop_0 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00dfh     00ech    000eh      LOCAL    0.7857    _ConfigureViref (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d5h     00d9h    0005h      LOCAL    1.6       _ConfigureDAC1 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d5h     00d9h    0005h      LOCAL    1.6       _ConfigureDAC2 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d2h     00d4h    0003h      LOCAL    3         _Dac2Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d5h     00d9h    0005h      LOCAL    1.6       _ConfigureDAC3 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d2h     00d3h    0002h      LOCAL    2         _Uart_IsAvailable_ReadByte (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     00h     00d6h     00d7h    0002h      LOCAL    5.5       _Protocol_TxLoop (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00d5h     00d5h    0000h      LOCAL    0         _TxAfeSetParameter (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00d2h     00d4h    0003h      LOCAL    6         _Uart_TxByte_Interrupt (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     00h     00d5h     00d5h    0001h      LOCAL    8         _TxAfeMeasureData (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00d5h     00d5h    0000h      LOCAL    0         _TxCalVoltage (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00d5h     00d5h    0000h      LOCAL    0         _TxCalCurrent (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00d5h     00d5h    0000h      LOCAL    0         _TxRestartNum (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\USER_PROTOCOL.OBJ)
+     00h     00f1h     00f1h    0000h      LOCAL    0         _Enter_Halt (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\SYS_INIT.OBJ)
+     01h     0080h     0091h    0012h      LOCAL    0.6111    _Disable_AFE (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00dfh     00f0h    0012h      LOCAL    2.7222    _FourElAfeCfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d2h     00d4h    0003h      LOCAL    3         _Opa2Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\AFE.OBJ)
+     00h     00d2h     00d2h    0001h      LOCAL    0         _SetHaltMode (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\OSCILLATORS.OBJ)
+     00h     00d2h     00d2h    0000h      LOCAL    0         _WakeUpInit (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\SYS_INIT.OBJ)
+     00h     00d2h     00d2h    0000h      LOCAL    0         @dummy48 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     00h     00d2h     00d2h    0000h      LOCAL    0         _UART_ISR (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\UART.OBJ)
+     00h     00d2h     00d2h    0000h      LOCAL    0         @dummy12 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     00d2h     00d2h    0000h      LOCAL    0         _ADC_Auto_Mode_ISR (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     00d2h     00d2h    0000h      LOCAL    0         @dummy52 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     00d2h     00d2h    0000h      LOCAL    0         _ADC_Average_ISR (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     00d2h     00d2h    0000h      LOCAL    0         @dummy16 (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+     00h     00d2h     00d2h    0000h      LOCAL    0         _ADC_ISR (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\ADC24.OBJ)
+
+     Public Symbols Information
+     Address            Public by Name
+     103ah              _ADC_Auto_Mode_ISR
+     1040h              _ADC_Average_ISR
+     1077h              _ADC_ISR
+     0ee2h              _Adc24_Cfg
+     1032h              _Adc24_Enable
+     1255h              _ConfigureDAC1
+     1261h              _ConfigureDAC2
+     126dh              _ConfigureDAC3
+     1237h              _ConfigureViref
+     1308h              _Crom2Prom
+     1307h              _Crom2PromNext
+     02a4h              _CurrentWe1Polling
+     010fh              _CurrentWe1Start
+     0022h              _DRDY_Ready
+     10c5h              _Dac1Cfg
+     10dbh              _Dac2Cfg
+     10f1h              _Dac3Cfg
+     120dh              _Disable_AFE
+     0e2bh              _Eeprom_ReadBuff
+     00d8h              _Eeprom_ReadBuff_2
+     0e0ch              _Eeprom_ReadByte
+     0ea1h              _Eeprom_WriteBuf
+     0e6ah              _Eeprom_WriteByte
+     0c4ch              _Enter_Halt
+     11c7h              _FourElAfeCfg
+     0002h              _Gpio_PowerOnInit
+     059eh              _Init_AFE
+     1107h              _Opa1Cfg
+     1140h              _Opa2Cfg
+     117bh              _Opa3Cfg
+     0c7ah              _Oscillators_Cfg
+     07a9h              _ProtocolUnPack
+     0821h              _Protocol_ReceiveLoop
+     0badh              _Protocol_RxLoop
+     0bb9h              _Protocol_TxLoop
+     0c93h              _Ram_Clear
+     0c8fh              _SetHaltMode
+     04f5h              _Sys_Afe
+     0527h              _Sys_Calibrite
+     0c1dh              _Sys_PowerOnInit
+     0087h              _Sys_ReadCalibratePara
+     01fdh              _Temp
+     018fh              _TemperaturePolling
+     00b1h              _TemperatureStart
+     118dh              _ThirdElAfeCfg
+     04a6h              _ThirdElAfeInit
+     0723h              _TxAfeMeasureData
+     05cbh              _TxAfeSetParameter
+     0644h              _TxCalCurrent
+     0605h              _TxCalVoltage
+     06bbh              _TxRestartNum
+     0d67h              _UART_ISR
+     0cb2h              _Uart_Cfg
+     0d1dh              _Uart_IsAvailable_ReadByte
+     0cfdh              _Uart_TxByte_Interrupt
+     10ach              _VirefCfg
+     0c77h              _WakeUpInit
+     0014h              _Work_Mode_Polling
+     127eh              __DELAYY0_isr00
+     127dh              __DELAYY1_isr00
+     127ch              __DELAYY2_isr00
+     127bh              __DELAYY3_isr00
+     127ah              __DELAYY4_isr00
+     1279h              __DELAYY5_isr00
+     0192h              _adc24SourceData
+     0280h              _adc24SourceDataBuf
+     01aah              _adcAutoModeBufP
+     01d3h              _adcAvgWE1
+     01d2h              _adcCntWE1
+     12a6h              _builtin_holtek_divmodsi4_isr00
+     1287h              _builtin_holtek_mulsi3_isr00
+     12c4h              _builtin_holtek_udivmodsi4_isr00
+     00f8h              _cgmApiP
+     00fch              _deviceApi
+     01dch              _isDeepSleep
+     01dbh              _isWaitingBleRespond
+     01a8h              _isWork
+     01ceh              _lastNaWe1Raw
+     0038h              _main
+     02d4h              _queueBuf
+     019dh              _queue_in
+     019bh              _queue_out
+     01ddh              _rxBuf
+     01d7h              _sum
+     01adh              _txBuf
+     019fh              _uartStatus
+     00cch              r10c
+     00d0h              r110
+     00c3h              r130
+     00ceh              r134
+     00cdh              r20c
+     00d1h              r210
+     00c4h              r230
+     00cfh              r234
+     01ffh              r330
+     02f4h              r430
+     02f5h              r530
+     02f6h              r630
+     00bbh              ra
+     00c5h              ra30
+     00bch              rb
+     00c7h              rb30
+     00bdh              rc
+     00c6h              rc30
+     00beh              rd
+     00c8h              rd30
+     00bfh              re
+     00c9h              re30
+     00c0h              rf
+     00cah              rf30
+     00c1h              rg
+     00cbh              rg30
+     00c2h              rh
+
+     Address            Public by Value
+     0002h              _Gpio_PowerOnInit
+     0014h              _Work_Mode_Polling
+     0022h              _DRDY_Ready
+     0038h              _main
+     0087h              _Sys_ReadCalibratePara
+     00b1h              _TemperatureStart
+     00bbh              ra
+     00bch              rb
+     00bdh              rc
+     00beh              rd
+     00bfh              re
+     00c0h              rf
+     00c1h              rg
+     00c2h              rh
+     00c3h              r130
+     00c4h              r230
+     00c5h              ra30
+     00c6h              rc30
+     00c7h              rb30
+     00c8h              rd30
+     00c9h              re30
+     00cah              rf30
+     00cbh              rg30
+     00cch              r10c
+     00cdh              r20c
+     00ceh              r134
+     00cfh              r234
+     00d0h              r110
+     00d1h              r210
+     00d8h              _Eeprom_ReadBuff_2
+     00f8h              _cgmApiP
+     00fch              _deviceApi
+     010fh              _CurrentWe1Start
+     018fh              _TemperaturePolling
+     0192h              _adc24SourceData
+     019bh              _queue_out
+     019dh              _queue_in
+     019fh              _uartStatus
+     01a8h              _isWork
+     01aah              _adcAutoModeBufP
+     01adh              _txBuf
+     01ceh              _lastNaWe1Raw
+     01d2h              _adcCntWE1
+     01d3h              _adcAvgWE1
+     01d7h              _sum
+     01dbh              _isWaitingBleRespond
+     01dch              _isDeepSleep
+     01ddh              _rxBuf
+     01fdh              _Temp
+     01ffh              r330
+     0280h              _adc24SourceDataBuf
+     02a4h              _CurrentWe1Polling
+     02d4h              _queueBuf
+     02f4h              r430
+     02f5h              r530
+     02f6h              r630
+     04a6h              _ThirdElAfeInit
+     04f5h              _Sys_Afe
+     0527h              _Sys_Calibrite
+     059eh              _Init_AFE
+     05cbh              _TxAfeSetParameter
+     0605h              _TxCalVoltage
+     0644h              _TxCalCurrent
+     06bbh              _TxRestartNum
+     0723h              _TxAfeMeasureData
+     07a9h              _ProtocolUnPack
+     0821h              _Protocol_ReceiveLoop
+     0badh              _Protocol_RxLoop
+     0bb9h              _Protocol_TxLoop
+     0c1dh              _Sys_PowerOnInit
+     0c4ch              _Enter_Halt
+     0c77h              _WakeUpInit
+     0c7ah              _Oscillators_Cfg
+     0c8fh              _SetHaltMode
+     0c93h              _Ram_Clear
+     0cb2h              _Uart_Cfg
+     0cfdh              _Uart_TxByte_Interrupt
+     0d1dh              _Uart_IsAvailable_ReadByte
+     0d67h              _UART_ISR
+     0e0ch              _Eeprom_ReadByte
+     0e2bh              _Eeprom_ReadBuff
+     0e6ah              _Eeprom_WriteByte
+     0ea1h              _Eeprom_WriteBuf
+     0ee2h              _Adc24_Cfg
+     1032h              _Adc24_Enable
+     103ah              _ADC_Auto_Mode_ISR
+     1040h              _ADC_Average_ISR
+     1077h              _ADC_ISR
+     10ach              _VirefCfg
+     10c5h              _Dac1Cfg
+     10dbh              _Dac2Cfg
+     10f1h              _Dac3Cfg
+     1107h              _Opa1Cfg
+     1140h              _Opa2Cfg
+     117bh              _Opa3Cfg
+     118dh              _ThirdElAfeCfg
+     11c7h              _FourElAfeCfg
+     120dh              _Disable_AFE
+     1237h              _ConfigureViref
+     1255h              _ConfigureDAC1
+     1261h              _ConfigureDAC2
+     126dh              _ConfigureDAC3
+     1279h              __DELAYY5_isr00
+     127ah              __DELAYY4_isr00
+     127bh              __DELAYY3_isr00
+     127ch              __DELAYY2_isr00
+     127dh              __DELAYY1_isr00
+     127eh              __DELAYY0_isr00
+     1287h              _builtin_holtek_mulsi3_isr00
+     12a6h              _builtin_holtek_divmodsi4_isr00
+     12c4h              _builtin_holtek_udivmodsi4_isr00
+     1307h              _Crom2PromNext
+     1308h              _Crom2Prom
+
+
+ROM Usage Statistics
+     Size      Used     Percentage
+     2000h     1308h    59%
+
+RAM Usage Statistics
+    Bank      Size      Used     Percentage
+     00h       0080h     0080h    100%
+     01h       0080h     0080h    100%
+     02h       0080h     0077h    92%
+     03h       0080h     0000h    0%
+     Total     0200h     0177h    73%
+
+Use Stack Count
+_main: 6
+_TemperatureStartOffset: 2
+_Uart_TxByte_Polling: 1
+_UART_ISR: 1
+_IntegerToString: 1
+_ADC_Auto_Mode_ISR: 0
+_ADC_Average_ISR: 0
+_ADC_ISR: 0
+_TwoElAfeCfg: 1
+_IAP_Erase_Page: 1
+_IAP_Write_Page: 1
+
+Call Tree
+    @dummy
+        _main (0)
+            _Sys_PowerOnInit (1)
+                _Oscillators_Cfg (2)
+                    _Crom2Prom (3)
+                _Ram_Clear (2)
+                _Gpio_PowerOnInit (2)
+                _Uart_Cfg (2)
+                    _Crom2Prom (3)
+            _Sys_ReadCalibratePara (1)
+                _Eeprom_ReadBuff (2)
+                    _Eeprom_ReadByte (3)
+            _Init_AFE (1)
+                _Work_Mode_Polling (2)
+                    _Sys_Calibrite (3)
+                        _ThirdElAfeInit (4)
+                            _ThirdElAfeCfg (5)
+                                _VirefCfg (6)
+                                _Dac1Cfg (6)
+                                _Dac3Cfg (6)
+                                _Opa1Cfg (6)
+                                _Opa3Cfg (6)
+                        _CurrentWe1Start (4)
+                            _Adc24_Cfg (5)
+                            _Oscillators_Cfg (5)
+                                _Crom2Prom (6)
+                            _Adc24_Enable (5)
+                        _CurrentWe1Polling (4)
+                            _Crom2Prom (5)
+                            _Crom2Prom (5)
+                            _builtin_holtek_divmodsi4_isr00 (5)
+                            _builtin_holtek_mulsi3_isr00 (5)
+                            _DRDY_Ready (5)
+                                _Crom2Prom (6)
+                        _Eeprom_WriteBuf (4)
+                            _Crom2Prom (5)
+                            _Eeprom_WriteByte (5)
+                                _Eeprom_ReadByte (6)
+                        _Eeprom_ReadBuff (4)
+                            _Eeprom_ReadByte (5)
+                        _builtin_holtek_delay_isr00 (4)
+                    _Sys_Afe (3)
+                        _ThirdElAfeInit (4)
+                            _ThirdElAfeCfg (5)
+                                _VirefCfg (6)
+                                _Dac1Cfg (6)
+                                _Dac3Cfg (6)
+                                _Opa1Cfg (6)
+                                _Opa3Cfg (6)
+                        _CurrentWe1Start (4)
+                            _Adc24_Cfg (5)
+                            _Oscillators_Cfg (5)
+                                _Crom2Prom (6)
+                            _Adc24_Enable (5)
+                        _CurrentWe1Polling (4)
+                            _Crom2Prom (5)
+                            _Crom2Prom (5)
+                            _builtin_holtek_divmodsi4_isr00 (5)
+                            _builtin_holtek_mulsi3_isr00 (5)
+                            _DRDY_Ready (5)
+                                _Crom2Prom (6)
+                        _TemperatureStart (4)
+                            _Adc24_Cfg (5)
+                            _Oscillators_Cfg (5)
+                                _Crom2Prom (6)
+                            _Adc24_Enable (5)
+                        _TemperaturePolling (4)
+                            _Crom2Prom (5)
+                            _Crom2Prom (5)
+                            _builtin_holtek_mulsi3_isr00 (5)
+                            _builtin_holtek_divmodsi4_isr00 (5)
+                            _DRDY_Ready (5)
+                                _Crom2Prom (6)
+                            _builtin_holtek_delay_isr00 (5)
+            _Eeprom_ReadBuff (1)
+                _Eeprom_ReadByte (2)
+            _Eeprom_WriteBuf (1)
+                _Crom2Prom (2)
+                _Eeprom_WriteByte (2)
+                    _Eeprom_ReadByte (3)
+            _Protocol_RxLoop (1)
+                _Protocol_ReceiveLoop (2)
+                    _ProtocolUnPack (3)
+                        ___GetCheckLRC_constprop_0 (4)
+                            _Crom2Prom (5)
+                        _Crom2Prom (4)
+                    _Eeprom_WriteBuf (3)
+                        _Crom2Prom (4)
+                        _Eeprom_WriteByte (4)
+                            _Eeprom_ReadByte (5)
+                    _Eeprom_ReadBuff (3)
+                        _Eeprom_ReadByte (4)
+                    _Crom2Prom (3)
+                    _ConfigureViref (3)
+                        _VirefCfg (4)
+                    _Crom2Prom (3)
+                    _ConfigureDAC1 (3)
+                        _Dac1Cfg (4)
+                    _ConfigureDAC2 (3)
+                        _Dac2Cfg (4)
+                    _ConfigureDAC3 (3)
+                        _Dac3Cfg (4)
+                    _DRDY_Ready (3)
+                        _Crom2Prom (4)
+                    _builtin_holtek_delay_isr00 (3)
+                _Uart_IsAvailable_ReadByte (2)
+                    _Crom2Prom (3)
+            _Work_Mode_Polling (1)
+                _Sys_Calibrite (2)
+                    _ThirdElAfeInit (3)
+                        _ThirdElAfeCfg (4)
+                            _VirefCfg (5)
+                            _Dac1Cfg (5)
+                            _Dac3Cfg (5)
+                            _Opa1Cfg (5)
+                            _Opa3Cfg (5)
+                    _CurrentWe1Start (3)
+                        _Adc24_Cfg (4)
+                        _Oscillators_Cfg (4)
+                            _Crom2Prom (5)
+                        _Adc24_Enable (4)
+                    _CurrentWe1Polling (3)
+                        _Crom2Prom (4)
+                        _Crom2Prom (4)
+                        _builtin_holtek_divmodsi4_isr00 (4)
+                        _builtin_holtek_mulsi3_isr00 (4)
+                        _DRDY_Ready (4)
+                            _Crom2Prom (5)
+                    _Eeprom_WriteBuf (3)
+                        _Crom2Prom (4)
+                        _Eeprom_WriteByte (4)
+                            _Eeprom_ReadByte (5)
+                    _Eeprom_ReadBuff (3)
+                        _Eeprom_ReadByte (4)
+                    _builtin_holtek_delay_isr00 (3)
+                _Sys_Afe (2)
+                    _ThirdElAfeInit (3)
+                        _ThirdElAfeCfg (4)
+                            _VirefCfg (5)
+                            _Dac1Cfg (5)
+                            _Dac3Cfg (5)
+                            _Opa1Cfg (5)
+                            _Opa3Cfg (5)
+                    _CurrentWe1Start (3)
+                        _Adc24_Cfg (4)
+                        _Oscillators_Cfg (4)
+                            _Crom2Prom (5)
+                        _Adc24_Enable (4)
+                    _CurrentWe1Polling (3)
+                        _Crom2Prom (4)
+                        _Crom2Prom (4)
+                        _builtin_holtek_divmodsi4_isr00 (4)
+                        _builtin_holtek_mulsi3_isr00 (4)
+                        _DRDY_Ready (4)
+                            _Crom2Prom (5)
+                    _TemperatureStart (3)
+                        _Adc24_Cfg (4)
+                        _Oscillators_Cfg (4)
+                            _Crom2Prom (5)
+                        _Adc24_Enable (4)
+                    _TemperaturePolling (3)
+                        _Crom2Prom (4)
+                        _Crom2Prom (4)
+                        _builtin_holtek_mulsi3_isr00 (4)
+                        _builtin_holtek_divmodsi4_isr00 (4)
+                        _DRDY_Ready (4)
+                            _Crom2Prom (5)
+                        _builtin_holtek_delay_isr00 (4)
+            _Protocol_TxLoop (1)
+                _Crom2Prom (2)
+                _TxAfeSetParameter (2)
+                    ___GetCheckLRC_constprop_0 (3)
+                        _Crom2Prom (4)
+                    _Uart_TxByte_Interrupt (3)
+                        _Crom2Prom (4)
+                _TxAfeMeasureData (2)
+                    _Crom2Prom (3)
+                    ___GetCheckLRC_constprop_0 (3)
+                        _Crom2Prom (4)
+                    _Uart_TxByte_Interrupt (3)
+                        _Crom2Prom (4)
+                _TxCalVoltage (2)
+                    _Crom2Prom (3)
+                    ___GetCheckLRC_constprop_0 (3)
+                        _Crom2Prom (4)
+                    _Uart_TxByte_Interrupt (3)
+                        _Crom2Prom (4)
+                _TxCalCurrent (2)
+                    _Crom2Prom (3)
+                    _Crom2Prom (3)
+                    ___GetCheckLRC_constprop_0 (3)
+                        _Crom2Prom (4)
+                    _Uart_TxByte_Interrupt (3)
+                        _Crom2Prom (4)
+                _DRDY_Ready (2)
+                    _Crom2Prom (3)
+                _builtin_holtek_delay_isr00 (2)
+                _TxRestartNum (2)
+                    _Crom2Prom (3)
+                    _Crom2Prom (3)
+                    ___GetCheckLRC_constprop_0 (3)
+                        _Crom2Prom (4)
+                    _Uart_TxByte_Interrupt (3)
+                        _Crom2Prom (4)
+            _Enter_Halt (1)
+                _Disable_AFE (2)
+                    _FourElAfeCfg (3)
+                        _VirefCfg (4)
+                        _Dac1Cfg (4)
+                        _Dac3Cfg (4)
+                        _Dac2Cfg (4)
+                        _Opa1Cfg (4)
+                        _Opa3Cfg (4)
+                        _Opa2Cfg (4)
+                _SetHaltMode (2)
+            _WakeUpInit (1)
+    _TemperatureStartOffset
+        _Adc24_Cfg (0)
+        _Oscillators_Cfg (0)
+            _Crom2Prom (1)
+        _Adc24_Enable (0)
+    _Uart_TxByte_Polling
+        _Crom2Prom (0)
+    @dummy48
+        _UART_ISR (0)
+            _Crom2Prom (1)
+    _IntegerToString
+        _builtin_holtek_divmodsi4_isr00 (0)
+    @dummy12
+        _ADC_Auto_Mode_ISR (0)
+    @dummy52
+        _ADC_Average_ISR (0)
+    @dummy16
+        _ADC_ISR (0)
+    _TwoElAfeCfg
+        _VirefCfg (0)
+        _Dac1Cfg (0)
+        _Opa1Cfg (0)
+    _IAP_Erase_Page
+        _IAP_EraseWrite_Enable (0)
+    _IAP_Write_Page
+        _IAP_EraseWrite_Enable (0)
+        _Crom2Prom (0)
+
+HLINK: Program entry point at section '@code' (address 0) of file 'd:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\application_projects\.output\MAIN.OBJ'
+
+Total 0 error(s), Total 0 Warning(s)
