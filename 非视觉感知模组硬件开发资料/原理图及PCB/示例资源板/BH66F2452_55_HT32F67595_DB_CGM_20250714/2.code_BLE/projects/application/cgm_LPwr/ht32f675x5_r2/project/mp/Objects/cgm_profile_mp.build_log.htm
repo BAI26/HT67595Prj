@@ -1,0 +1,66 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.38.0.0
+Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: c viking BestHealth Flex license: MDK Essential 5.38 (Flex): 1 user(s) (mdk_essential) Support: Oct 2024
+ 
+Tool Versions:
+Toolchain:       MDK Essential 5.38 (Flex): 1 user(s)  Version: 5.38.0.0
+Toolchain Path:  D:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.19
+Assembler:       Armasm.exe V6.19
+Linker/Locator:  ArmLink.exe V6.19
+Library Manager: ArmAr.exe V6.19
+Hex Converter:   FromElf.exe V6.19
+CPU DLL:         
+Dialog DLL:      
+Target DLL:      CMSIS_AGDI_V8M.DLL V1.7.20.0
+Dialog DLL:      TCM.DLL V1.56.4.0
+ 
+<h2>Project:</h2>
+D:\D200\product\git\CGM_BH66F2475_HT32F675x5_1\2.Code_Ble\projects\application\cgm_LPwr\ht32f675x5_r2\project\mp\cgm_profile_mp.uvprojx
+Project File Date:  07/11/2025
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.19', folder: 'D:\Keil_v5\ARM\ARMCLANG\Bin'
+Build Project 'cgm_profile_mp' - Target 'cgm_profile_mp'
+compiling app_code_cp.c...
+linking...
+Program Size: Code=3564 RO-data=53200 RW-data=0 ZI-data=4408  
+FromELF: creating hex file...
+After Build - User command #1: .\cgm_profile_mp.bat ".\Objects\cgm_profile_mp.axf" "D:\Keil_v5\ARM\ARMCLANG\bin\fromelf.exe"
+"Make bin success!"
+"Make asm success!"
+        1 file(s) copied.
+After Build - User command #2: ..\..\..\..\..\..\tools\fw_upgrade\FW_UPGRADE_py.exe .\Objects\cgm_profile_mp.bin\FW_UPGRADE_CODE .\Objects\cgm_profile_mp.bin\APP_CODE
+RAM code(exclude boot2) length: 52652.
+".\Objects\cgm_profile_mp.axf" - 0 Error(s), 0 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.9.0.pack
+                ARM.CMSIS.5.9.0
+                CMSIS (Common Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.6.0
+
+Package Vendor: Holtek
+                https://mcu.holtek.com.tw/pack/Holtek.HT32F675x5_DFP.1.0.4.pack
+                Holtek.HT32F675x5_DFP.1.0.4
+                Holtek HT32F675x5 Series Device Support
+
+<h2>Collection of Component include folders:</h2>
+  ./RTE/_cgm_profile_mp
+  D:/Users/cwj/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
+  D:/Users/cwj/AppData/Local/Arm/Packs/Holtek/HT32F675x5_DFP/1.0.4/Device/Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.6.0
+Build Time Elapsed:  00:00:14
+</pre>
+</body>
+</html>

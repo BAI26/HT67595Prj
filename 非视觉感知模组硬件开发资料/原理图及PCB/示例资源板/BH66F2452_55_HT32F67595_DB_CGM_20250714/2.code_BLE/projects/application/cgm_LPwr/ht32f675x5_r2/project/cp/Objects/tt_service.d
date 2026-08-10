@@ -1,0 +1,30 @@
+./objects/tt_service.o: \
+  ..\..\..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_services\ble_mus\tt_service.c \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
+  ..\..\..\..\..\..\sources\components\ht32f675x5_r2\utility\err_def.h \
+  ..\..\..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\stack\host_stack\stack_def.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
+  ..\..\..\..\..\..\sources\device\ht32f675x5\Include\ARMCM0plus.h \
+  ..\..\..\..\..\..\third_party\CMSIS\5.7.0\CMSIS\Include\core_cm0plus.h \
+  ..\..\..\..\..\..\third_party\CMSIS\5.7.0\CMSIS\Include\cmsis_version.h \
+  ..\..\..\..\..\..\third_party\CMSIS\5.7.0\CMSIS\Include\cmsis_compiler.h \
+  ..\..\..\..\..\..\third_party\CMSIS\5.7.0\CMSIS\Include\cmsis_armclang.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_compat.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_acle.h \
+  ..\..\..\..\..\..\sources\device\ht32f675x5\Include\system_ARMCM0plus.h \
+  ..\..\..\..\..\..\third_party\CMSIS\5.7.0\CMSIS\RTOS2\RTX\Include\rtx_os.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
+  ..\..\..\..\..\..\third_party\CMSIS\5.7.0\CMSIS\RTOS2\Include\cmsis_os2.h \
+  ..\..\..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\stack\host_stack\gatt_service_api.h \
+  ..\..\..\..\..\..\sources\patch\ht32f675x5_patch_lib_r2\patch_ble\stack\patch_gatt_service_api.h \
+  ..\..\..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\stack\host_stack\gatt_client_api.h \
+  ..\..\..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\stack\host_stack\gatt_uuid_def.h \
+  ..\..\..\..\..\..\sources\components\ht32f675x5_r2\utility\utility.h \
+  ..\..\..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\stack\host_stack\gap_api.h \
+  ..\..\config\app_cfg.h \
+  ..\..\config\..\..\..\..\..\sources\mem_cfg\ht32f675x5_mem_cfg_r2.h \
+  ..\..\..\..\..\..\sources\projects_source\application\cgm_LPwr\ht32f675x5_r2\ble\ble_event\ble_event.h \
+  ..\..\..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_services\ble_mus\tt_service.h

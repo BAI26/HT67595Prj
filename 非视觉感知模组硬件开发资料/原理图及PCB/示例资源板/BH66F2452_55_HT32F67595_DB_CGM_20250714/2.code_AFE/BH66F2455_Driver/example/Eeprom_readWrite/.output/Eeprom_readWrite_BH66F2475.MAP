@@ -1,0 +1,122 @@
+
+Linker Version 8.7.7.220718
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\STARTUP1_L.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\MAIN.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\EEPROM.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\OSCILLATORS.OBJ
+Input Object File: d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\RAM.OBJ
+
+Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB
+Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\v3_lmrsc.lib
+
+
+     Bank    Start     End      Length     Class    AvgIns    Name
+     00h     0000h     0000h    0001h      CODE               @code (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\MAIN.OBJ)
+     00h     0001h     0001h    0001h      CODE               @start (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\MAIN.OBJ)
+     00h     0002h     0055h    0054h      CODE               _main (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\MAIN.OBJ)
+     00h     0056h     0074h    001fh      CODE               _Eeprom_ReadByte (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\EEPROM.OBJ)
+     00h     0075h     00b3h    003fh      CODE               _Eeprom_ReadBuff (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\EEPROM.OBJ)
+     00h     00b4h     00eah    0037h      CODE               _Eeprom_WriteByte (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\EEPROM.OBJ)
+     00h     00ebh     012bh    0041h      CODE               _Eeprom_WriteBuf (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\EEPROM.OBJ)
+     00h     012ch     0140h    0015h      CODE               _Oscillators_Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\OSCILLATORS.OBJ)
+     00h     0141h     015fh    001fh      CODE               _Ram_Clear (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\RAM.OBJ)
+     00h     0160h     0162h    0003h      CODE               _CROM2PROM (CROM2PROM)
+     00h     0080h     0080h    0001h      DATA     28        @data_ra (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     0081h     0081h    0001h      DATA     17        @data_rb (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     0082h     0082h    0001h      DATA     11        @data_rc (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     0083h     0083h    0001h      DATA     6         @data_rd (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     0084h     0084h    0001h      DATA     6         @data_re (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     009bh     00a2h    0008h      DATA     1         @HCCINIT0_writeData (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\MAIN.OBJ)
+     00h     00a3h     00aah    0008h      DATA     0         @HCCINIT0_readData (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\MAIN.OBJ)
+
+     Local Sections
+
+     Bank    Start     End      Length     Class    AvgIns    Name
+     00h     009bh     009bh    0000h      LOCAL    0         @dummy (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\MAIN.OBJ)
+     00h     0096h     009ah    0005h      LOCAL    3.2       _main (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\MAIN.OBJ)
+     00h     0085h     0086h    0002h      LOCAL    2         _Oscillators_Cfg (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\OSCILLATORS.OBJ)
+     00h     0085h     0085h    0000h      LOCAL    0         _Crom2Prom (CROM2PROM)
+     00h     0085h     0085h    0000h      LOCAL    0         _Ram_Clear (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\RAM.OBJ)
+     00h     0089h     008ch    0004h      LOCAL    3.75      _Eeprom_WriteByte (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\EEPROM.OBJ)
+     00h     0085h     0088h    0004h      LOCAL    4.5       _Eeprom_ReadByte (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\EEPROM.OBJ)
+     00h     008dh     0095h    0009h      LOCAL    3.2222    _Eeprom_WriteBuf (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\EEPROM.OBJ)
+     00h     0089h     0091h    0009h      LOCAL    3.2222    _Eeprom_ReadBuff (d:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\EEPROM.OBJ)
+
+     Public Symbols Information
+     Address            Public by Name
+     0161h              _Crom2Prom
+     0160h              _Crom2PromNext
+     0075h              _Eeprom_ReadBuff
+     0089h              _Eeprom_ReadBuff_2
+     0056h              _Eeprom_ReadByte
+     0085h              _Eeprom_ReadByte_2
+     00ebh              _Eeprom_WriteBuf
+     0092h              _Eeprom_WriteBuf_2
+     00b4h              _Eeprom_WriteByte
+     012ch              _Oscillators_Cfg
+     0141h              _Ram_Clear
+     0002h              _main
+     00a3h              _readData
+     009bh              _writeData
+     0080h              ra
+     0081h              rb
+     0082h              rc
+     0083h              rd
+     0084h              re
+
+     Address            Public by Value
+     0002h              _main
+     0056h              _Eeprom_ReadByte
+     0075h              _Eeprom_ReadBuff
+     0080h              ra
+     0081h              rb
+     0082h              rc
+     0083h              rd
+     0084h              re
+     0085h              _Eeprom_ReadByte_2
+     0089h              _Eeprom_ReadBuff_2
+     0092h              _Eeprom_WriteBuf_2
+     009bh              _writeData
+     00a3h              _readData
+     00b4h              _Eeprom_WriteByte
+     00ebh              _Eeprom_WriteBuf
+     012ch              _Oscillators_Cfg
+     0141h              _Ram_Clear
+     0160h              _Crom2PromNext
+     0161h              _Crom2Prom
+
+
+ROM Usage Statistics
+     Size      Used     Percentage
+     2000h     0163h    4%
+
+RAM Usage Statistics
+    Bank      Size      Used     Percentage
+     00h       0080h     002bh    33%
+     01h       0080h     0000h    0%
+     02h       0080h     0000h    0%
+     03h       0080h     0000h    0%
+     Total     0200h     002bh    8%
+
+Use Stack Count
+_main: 3
+
+Call Tree
+    @dummy
+        _main (0)
+            _Oscillators_Cfg (1)
+                _Crom2Prom (2)
+            _Ram_Clear (1)
+            _Eeprom_WriteByte (1)
+                _Eeprom_ReadByte (2)
+            _Eeprom_ReadByte (1)
+            _Eeprom_WriteBuf (1)
+                _Crom2Prom (2)
+                _Eeprom_WriteByte (2)
+                    _Eeprom_ReadByte (3)
+            _Eeprom_ReadBuff (1)
+                _Eeprom_ReadByte (2)
+
+HLINK: Program entry point at section '@code' (address 0) of file 'd:\d200\product\git\bh66f2455_evm_cgm\2.code\bh66f2455_driver\example\eeprom_readwrite\.output\MAIN.OBJ'
+
+Total 0 error(s), Total 0 Warning(s)
