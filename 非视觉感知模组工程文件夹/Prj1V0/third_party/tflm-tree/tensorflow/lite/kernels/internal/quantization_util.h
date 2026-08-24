@@ -21,6 +21,8 @@ limitations under the License.
 
 #include "tensorflow/lite/kernels/internal/compatibility.h"
 #include "tensorflow/lite/kernels/internal/types.h"
+#include "tensorflow/lite/c/builtin_op_data.h"
+#include "tensorflow/lite/c/common.h"
 
 namespace tflite {
 
@@ -287,6 +289,19 @@ bool CheckedLog2(const float x, int* log2_result);
 void QuantizeMultiplierArray(const double* effective_scales, size_t size,
                              int32_t* effective_scale_significand,
                              int* effective_shift);
+
+TfLiteStatus GetQuantizedConvolutionMultipler(TfLiteContext* context,
+                                              const TfLiteTensor* input,
+                                              const TfLiteTensor* filter,
+                                              const TfLiteTensor* bias,
+                                              TfLiteTensor* output,
+                                              double* multiplier);
+
+TfLiteStatus CalculateActivationRangeQuantized(TfLiteContext* context,
+                                               TfLiteFusedActivation activation,
+                                               TfLiteTensor* output,
+                                               int32_t* act_min,
+                                               int32_t* act_max);
 
 }  // namespace tflite
 

@@ -76,7 +76,7 @@
 // APP Code
 #define FLASH_MP_APP_CODE_ADDR             (FLASH_BASE_ADDR + FLASH_BOOT_RESERVED_SIZE_MAX)
 #define FLASH_MP_APP_CODE_ADDR_OFFSET      (FLASH_MP_APP_CODE_ADDR - FLASH_BASE_ADDR)
-#define FLASH_MP_APP_CODE_SIZE_MAX         (120 * KBYTE)
+#define FLASH_MP_APP_CODE_SIZE_MAX         (160 * KBYTE)
 
 
 //=====================================================================================================================

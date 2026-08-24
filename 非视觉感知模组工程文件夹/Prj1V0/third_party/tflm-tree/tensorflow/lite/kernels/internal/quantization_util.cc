@@ -19,6 +19,7 @@ limitations under the License.
 #include <cmath>
 #include <limits>
 
+#include "tensorflow/lite/c/common.h"
 #include "tensorflow/lite/kernels/internal/compatibility.h"
 #include "tensorflow/lite/kernels/internal/cppmath.h"
 
@@ -411,6 +412,90 @@ void QuantizeMultiplierArray(const double* effective_scales, size_t size,
     QuantizeMultiplier(effective_scales[i], &effective_scale_significand[i],
                        &effective_shift[i]);
   }
+}
+
+TfLiteStatus GetQuantizedConvolutionMultipler(TfLiteContext* context,
+                                              const TfLiteTensor* input,
+                                              const TfLiteTensor* filter,
+                                              const TfLiteTensor* bias,
+                                              TfLiteTensor* output,
+                                              double* multiplier) {
+  const double input_product_scale =
+      static_cast<double>(input->params.scale * filter->params.scale);
+  *multiplier = input_product_scale / static_cast<double>(output->params.scale);
+  return kTfLiteOk;
+}
+
+namespace {
+
+inline TfLiteStatus Quantize(TfLiteContext* context, float scale,
+                             int32_t zero_point, float f, int32_t& q) {
+  const float tmp = TfLiteRound(f / scale);
+  const bool no_integer_overflow_from_quantization =
+      (tmp >= static_cast<float>(std::numeric_limits<int32_t>::min()) &&
+       tmp <= static_cast<float>(std::numeric_limits<int32_t>::max()));
+  TF_LITE_ENSURE(context, no_integer_overflow_from_quantization);
+  q = zero_point + static_cast<int32_t>(tmp);
+  return kTfLiteOk;
+}
+
+TfLiteStatus CalculateActivationRangeQuantizedImpl(
+    TfLiteContext* context, TfLiteFusedActivation activation, int32_t qmin,
+    int32_t qmax, TfLiteTensor* output, int32_t* act_min, int32_t* act_max) {
+  const auto scale = output->params.scale;
+  const auto zero_point = output->params.zero_point;
+
+  int32_t tmp_q;
+  if (activation == kTfLiteActRelu) {
+    TF_LITE_ENSURE_OK(context,
+                      Quantize(context, scale, zero_point, 0.0f, tmp_q));
+    *act_min = std::max(qmin, tmp_q);
+    *act_max = qmax;
+  } else if (activation == kTfLiteActRelu6) {
+    TF_LITE_ENSURE_OK(context,
+                      Quantize(context, scale, zero_point, 0.0f, tmp_q));
+    *act_min = std::max(qmin, tmp_q);
+    TF_LITE_ENSURE_OK(context,
+                      Quantize(context, scale, zero_point, 6.0f, tmp_q));
+    *act_max = std::min(qmax, tmp_q);
+  } else if (activation == kTfLiteActReluN1To1) {
+    TF_LITE_ENSURE_OK(context,
+                      Quantize(context, scale, zero_point, -1.0f, tmp_q));
+    *act_min = std::max(qmin, tmp_q);
+    TF_LITE_ENSURE_OK(context,
+                      Quantize(context, scale, zero_point, 1.0f, tmp_q));
+    *act_max = std::min(qmax, tmp_q);
+  } else {
+    *act_min = qmin;
+    *act_max = qmax;
+  }
+  return kTfLiteOk;
+}
+
+}  // namespace
+
+TfLiteStatus CalculateActivationRangeQuantized(TfLiteContext* context,
+                                               TfLiteFusedActivation activation,
+                                               TfLiteTensor* output,
+                                               int32_t* act_min,
+                                               int32_t* act_max) {
+  int32_t qmin = 0;
+  int32_t qmax = 0;
+  if (output->type == kTfLiteUInt8) {
+    qmin = std::numeric_limits<uint8_t>::min();
+    qmax = std::numeric_limits<uint8_t>::max();
+  } else if (output->type == kTfLiteInt8) {
+    qmin = std::numeric_limits<int8_t>::min();
+    qmax = std::numeric_limits<int8_t>::max();
+  } else if (output->type == kTfLiteInt16) {
+    qmin = std::numeric_limits<int16_t>::min();
+    qmax = std::numeric_limits<int16_t>::max();
+  } else {
+    TF_LITE_ENSURE(context, false);
+  }
+
+  return CalculateActivationRangeQuantizedImpl(context, activation, qmin, qmax,
+                                               output, act_min, act_max);
 }
 
 }  // namespace tflite

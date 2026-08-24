@@ -1,0 +1,73 @@
+T9DD8 000:183.796   SEGGER J-Link V7.56d Log File
+T9DD8 000:183.915   DLL Compiled: Oct 29 2021 13:57:10
+T9DD8 000:183.922   Logging started @ 2026-08-19 07:51
+T9DD8 000:183.927 - 183.930ms
+T9DD8 000:183.938 JLINK_SetWarnOutHandler(...)
+T9DD8 000:183.945 - 0.009ms
+T9DD8 000:183.951 JLINK_OpenEx(...)
+T9DD8 000:185.851   Firmware: J-Link V9 compiled May  7 2021 16:26:12
+T9DD8 000:186.309   Firmware: J-Link V9 compiled May  7 2021 16:26:12
+T9DD8 000:186.451   Decompressing FW timestamp took 107 us
+T9DD8 000:194.608   Hardware: V9.40
+T9DD8 000:194.641   S/N: 69404693
+T9DD8 000:194.649   OEM: SEGGER
+T9DD8 000:194.656   Feature(s): RDI, GDB, FlashDL, FlashBP, JFlash
+T9DD8 000:195.553   TELNET listener socket opened on port 19021
+T9DD8 000:195.918   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T9DD8 000:196.056   WEBSRV Webserver running on local port 19080
+T9DD8 000:203.502 - 19.573ms returns "O.K."
+T9DD8 000:203.546 JLINK_GetEmuCaps()
+T9DD8 000:203.553 - 0.009ms returns 0xB9FF7BBF
+T9DD8 000:203.562 JLINK_TIF_GetAvailable(...)
+T9DD8 000:203.728 - 0.179ms
+T9DD8 000:203.752 JLINK_SetErrorOutHandler(...)
+T9DD8 000:203.757 - 0.008ms
+T9DD8 000:203.787 JLINK_ExecCommand("ProjectFile = "D:\360MoveData\Users\BAI26\Desktop\2026-07\非视觉感知模组工程文件夹\Prj1V0\projects\ble_examples\ble_peripheral\ht32f675x5_r2\project\mp\JLinkSettings.ini"", ...). 
+T9DD8 000:213.713   Ref file found at: D:\Keil5\ARM\Segger\JLinkDevices.ref
+T9DD8 000:213.955   XML referenced by ref file: C:\Program Files\SEGGER\JLink\JLinkDevices.xml
+T9DD8 000:214.682   C:\Program Files\SEGGER\JLink\JLinkDevices.xml evaluated successfully.
+T9DD8 000:331.738   Device "CORTEX-M33" selected.
+T9DD8 000:332.143 - 128.363ms returns 0x00
+T9DD8 000:332.200 JLINK_ExecCommand("Device = HT32F67595_28LGA:CM33", ...). 
+T9DD8 000:332.423   Device "CORTEX-M33" selected.
+T9DD8 000:332.847 - 0.630ms returns 0x00
+T9DD8 000:332.859 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T9DD8 000:332.869 - 0.004ms returns 0x01
+T9DD8 000:332.876 JLINK_GetHardwareVersion()
+T9DD8 000:332.881 - 0.008ms returns 94000
+T9DD8 000:332.888 JLINK_GetDLLVersion()
+T9DD8 000:332.893 - 0.008ms returns 75604
+T9DD8 000:332.900 JLINK_GetOEMString(...)
+T9DD8 000:332.906 JLINK_GetFirmwareString(...)
+T9DD8 000:332.911 - 0.008ms
+T9DD8 000:332.920 JLINK_GetDLLVersion()
+T9DD8 000:332.925 - 0.007ms returns 75604
+T9DD8 000:332.931 JLINK_GetCompileDateTime()
+T9DD8 000:332.936 - 0.007ms
+T9DD8 000:332.944 JLINK_GetFirmwareString(...)
+T9DD8 000:332.949 - 0.008ms
+T9DD8 000:332.956 JLINK_GetHardwareVersion()
+T9DD8 000:332.961 - 0.007ms returns 94000
+T9DD8 000:332.968 JLINK_GetSN()
+T9DD8 000:332.974 - 0.008ms returns 69404693
+T9DD8 000:332.980 JLINK_GetOEMString(...)
+T9DD8 000:332.989 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T9DD8 000:333.687 - 0.711ms returns 0x00
+T9DD8 000:333.706 JLINK_HasError()
+T9DD8 000:333.722 JLINK_SetSpeed(5000)
+T9DD8 000:333.813 - 0.095ms
+T9DD8 000:334.111 JLINK_HasError()
+T9DD8 000:334.123 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)
+T9DD8 000:334.129 - 0.008ms returns JLINKARM_RESET_TYPE_NORMAL
+T9DD8 000:334.135 JLINK_Reset()
+T9DD8 001:124.134 - 790.058ms
+T9DD8 001:124.235 JLINK_GetId()
+T9DD8 001:394.374 - 270.173ms returns 0x00000000
+T9DD8 001:394.429 JLINK_GetId()
+T9DD8 001:665.161 - 270.777ms returns 0x00000000
+T9DD8 001:674.273 JLINK_GetFirmwareString(...)
+T9DD8 001:674.300 - 0.030ms
+T9DD8 002:371.429 JLINK_Close()
+T9DD8 002:386.723 - 15.328ms
+T9DD8 002:386.764   
+T9DD8 002:386.773   Closed
