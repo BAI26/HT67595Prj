@@ -1,0 +1,93 @@
+
+================================================================================
+                    FALL DETECTION MODEL ANALYSIS REPORT
+================================================================================
+
+Generated: 2026-08-24 16:33:32
+
+--------------------------------------------------------------------------------
+1. MODEL INFORMATION
+--------------------------------------------------------------------------------
+Model: C:\Users\BAI26\AppData\Local\Temp\temp_model.tflite
+Input Shape: [  1 128   6]
+Output Shape: [1 1]
+
+--------------------------------------------------------------------------------
+2. TEST DATASET
+--------------------------------------------------------------------------------
+Total Samples: 58
+Fall Samples: 24 (41.4%)
+ADL Samples: 34 (58.6%)
+
+--------------------------------------------------------------------------------
+3. CONFUSION MATRIX
+--------------------------------------------------------------------------------
+                    Predicted
+                    ADL     Fall
+Actual ADL            34        0
+Actual Fall            5       19
+
+TN (True Negative): 34  - Correctly identified as normal
+FP (False Positive): 0  - Normal activity misclassified as fall
+FN (False Negative): 5  - Fall missed
+TP (True Positive): 19  - Correctly identified fall
+
+--------------------------------------------------------------------------------
+4. CLASSIFICATION METRICS
+--------------------------------------------------------------------------------
+                         ADL          Fall
+Precision              0.8718       1.0000
+Recall                 1.0000       0.7917
+F1-Score               0.9315       0.8837
+
+Overall Accuracy: 0.9138 (53/58)
+
+--------------------------------------------------------------------------------
+5. ADVANCED METRICS
+--------------------------------------------------------------------------------
+AUC-ROC (Area Under Curve): 0.9902
+  - Measures the model's ability to distinguish between classes
+  - 1.0 = perfect, 0.5 = random guessing
+
+Average Precision (AP): 0.9872
+  -综合考虑精确率和召回率
+  - Higher is better
+
+Sensitivity (Recall for Fall): 0.7917
+  - Percentage of actual falls correctly detected
+  - Critical for safety applications
+
+Specificity (Recall for ADL): 1.0000
+  - Percentage of normal activities correctly identified
+  - High specificity means fewer false alarms
+
+--------------------------------------------------------------------------------
+6. DETAILED CLASSIFICATION REPORT
+--------------------------------------------------------------------------------
+              precision    recall  f1-score   support
+
+ADL (Normal)       0.87      1.00      0.93        34
+        Fall       1.00      0.79      0.88        24
+
+    accuracy                           0.91        58
+   macro avg       0.94      0.90      0.91        58
+weighted avg       0.92      0.91      0.91        58
+
+
+--------------------------------------------------------------------------------
+7. INTERPRETATION & RECOMMENDATIONS
+--------------------------------------------------------------------------------
+1. Model accuracy: 91.4% - Good
+
+2. Fall detection sensitivity: 79.2%
+   - Approximately 21% of falls may be missed
+   - Consider improving recall for safety applications
+
+3. False alarm rate (ADL misclassified as Fall): 0.0%
+   - Low - good user experience
+
+4. AUC-ROC: 0.990 - Excellent
+
+================================================================================
+                              END OF REPORT
+================================================================================

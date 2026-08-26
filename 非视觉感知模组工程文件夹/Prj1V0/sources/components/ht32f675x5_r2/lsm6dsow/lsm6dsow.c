@@ -19,6 +19,7 @@
 #include "RegHT32F675x5.h"
 #include "err_def.h"
 #include "boards.h"
+#include "app_cfg.h"
 #include "hw_gpio.h"
 #include "utility.h"
 #include "bsp_spi.h"

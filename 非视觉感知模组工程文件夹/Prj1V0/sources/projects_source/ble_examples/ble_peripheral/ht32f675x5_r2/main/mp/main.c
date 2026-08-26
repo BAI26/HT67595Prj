@@ -1,8 +1,8 @@
-/*************************************************************************************************************
+/**
  * @file    main.c
- * @version V1.1
- * @date    2022-02-10
- * @brief   ble_peripheral mp app main file
+ * @version V2.0
+ * @date    2026-08-25
+ * @brief   ble_peripheral mp app main file - 集成 OTA + 模型推理
  *************************************************************************************************************
  * @attention
  *
@@ -25,11 +25,9 @@
  * <h2><center>Copyright (C) Holtek Semiconductor Inc. All rights reserved</center></h2>
  ************************************************************************************************************/
 
-
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <stdarg.h>
 #include <string.h>
 
 #include "RegHT32F675x5.h"
@@ -41,112 +39,104 @@
 #include "hw_sys_ctrl.h"
 #include "hw_wdt.h"
 #include "hal_pmu.h"
-#include "patch_hal_pmu.h"
 
 #include "app_cfg.h"
 #include "boards.h"
 #include "lpwr_ctrl.h"
 #include "utility.h"
-
 #include "app_debug.h"
 #include "err_debug.h"
 
-#if TFLM_HELLO_TEST_ENABLED
-#include "tflm_infer.h"
+#include "boot_manager.h"
+#include "ota_manager.h"
+#include "model_inference.h"
+#include "fall_model_data.h"
+#include "ble_ota_service.h"
+
+/* ================================================================
+ * 宏定义配置
+ * ================================================================ */
+#define APP_MODE_NORMAL        0  /* 正常模式：传感器 + 推理 */
+#define APP_MODE_SENSOR_TEST   1  /* 传感器测试模式 */
+#define APP_MODE_DATA_LOGGER   2  /* 数据采集模式 */
+#define APP_MODE_OTA           3  /* OTA 模式 */
+
+#ifndef APP_RUN_MODE
+#define APP_RUN_MODE            APP_MODE_NORMAL
 #endif
 
-#if SENSOR_SDK_TEST_ENABLED
-#include "imu9dof.h"
-#include "ahrs.h"
-#include "gd60932.h"
-#include "bsp_uart_irt.h"
-#include "ntc.h"
-#include "temp_fusion.h"
-#if BLE_SENSOR_SDK_ENABLED
-#include "ble_sensor.h"
-#endif
-#endif
+/* ================================================================
+ * 系统初始化
+ * ================================================================ */
 
 /**
  * @brief  System power manage.
- * @param  enSel: Select DCDC or LDO, @ref EN_PMU_POWER_SEL_T.
  */
 static void system_power_init(EN_PMU_PWR_SEL_T enSel)
 {
-    // Set ldo_act voltage.
     rom_hw_pmu_set_ldo_act_voltage(EN_LDO_ACT_1200mV);
-
-    // Init dcdc configuration and set dcdc_act voltage.
     rom_hw_pmu_dcdc_init();
     rom_hw_pmu_set_dcdc_act_voltage(EN_DCDC_ACT_VOLT_1200mV);
-
-    // Set ldo_dig and ldo_ret voltage.
     rom_hw_pmu_set_ldo_dig_voltage(EN_LDO_DIG_1100mV);
     rom_hw_pmu_set_ldo_ret_sleep_voltage(EN_LDO_RET_1100mV);
-
-    // Power selection. It will be valid after the system gets into sleep, default is ldo mode.
     rom_hal_pmu_sel_power_act_out_mode(enSel);
 }
 
 /**
  * @brief  System clock init.
- * @param  enSrc: System clock source selection, @ref EN_SYS_CLK_SRC_SEL_T.
  */
 static void system_clock_init(EN_SYS_CLK_SRC_SEL_T enSysClkSrc)
 {
     uint8_t u8Tune = 0;
 
-    /* Set rc_hclk tune value */
     rom_hw_efuse_read_bytes(EFUSE_RC_HCLK_TUNE_ADDR, &u8Tune, sizeof(u8Tune));
-    if (0 == u8Tune)
-    {
+    if (0 == u8Tune) {
         rom_hw_pmu_set_rc_hclk_tune(RC_HCLK_TUNE_DEFAUT_VAL);
     }
 
-    /* Set rc32k tune value */
     rom_hw_efuse_read_bytes(EFUSE_RC_LCLK_TUNE_ADDR, &u8Tune, sizeof(u8Tune));
-    if (u8Tune)
-    {
+    if (u8Tune) {
         rom_hw_pmu_set_rc_lclk_tune(u8Tune);
-    }
-    else
-    {
+    } else {
         rom_hw_pmu_set_rc_lclk_tune(RC_LCLK_TUNE_DEFAUT_VAL);
     }
 
-    /* System clock */
     rom_hw_pmu_sel_dcxo_hclk_pwr(EN_DCXO_HCLK_PWR_VDDR);
     rom_hal_pmu_cfg_dcxo_hclk_param(DCXO_HCLK_IB_3, DCXO_HCLK_NGM_3, DCXO_HCLK_CAP_10PF);
     rom_hal_pmu_set_sys_clk_src(enSysClkSrc, DCXO_HCLK_STABLE_TIME_2500US);
 }
 
 /**
- * @brief  All peripheral init.
+ * @brief  Peripheral init.
  */
 static void peripheral_init(void)
 {
-    /* Disable MP all Peripheral interrupt. */
     rom_hw_sys_ctrl_peri_int_ctrl(SYS_CTRL_MP, 0, 0);
 
 #if APP_DEBUG_ENABLED
-    app_debug_init(GPIO_PORT_MP_APP_DEBUG_TX, GPIO_PIN_MP_APP_DEBUG_TX, UART_HANDLE_MP_APP_DEBUG, UART_BPS_MP_APP_DEBUG,
-                   NULL);
-    PRINTF("[%s T %s]ble peripheral project(mp) start to work.\n", __DATE__, __TIME__);
+    app_debug_init(GPIO_PORT_MP_APP_DEBUG_TX, GPIO_PIN_MP_APP_DEBUG_TX,
+                   UART_HANDLE_MP_APP_DEBUG, UART_BPS_MP_APP_DEBUG, NULL);
+    PRINTF("\r\n");
+    PRINTF("======================================\r\n");
+    PRINTF("  BLE Peripheral + AI Inference\r\n");
+    PRINTF("  Built: %s %s\r\n", __DATE__, __TIME__);
+    PRINTF("======================================\r\n");
 #endif
 
     err_debug_init();
 }
 
 /**
- * @brief  Enable CM0P. Remap cm0p, release cm0p reset signal.
+ * @brief  Enable CM0P coprocessor.
  */
 static void system_enable_cp(void)
 {
     rom_hw_crg_keep_reset(CRG_CP_SW_RST);
 
-    if (ERR_STA_OK == rom_hw_sys_ctrl_enable_cp_remap(ROM_CP_STARTUP_CODE_ADDR, ROM_CP_STARTUP_CODE_SIZE_MAX))
-    {
-        rom_hw_sys_ctrl_write_com_reg(SYS_CTRL_COM_REG_REMAP_ADDR, (*(volatile uint32_t *)((RAM_CP_ADDR + 4))));
+    if (ERR_STA_OK == rom_hw_sys_ctrl_enable_cp_remap(ROM_CP_STARTUP_CODE_ADDR,
+                                                      ROM_CP_STARTUP_CODE_SIZE_MAX)) {
+        rom_hw_sys_ctrl_write_com_reg(SYS_CTRL_COM_REG_REMAP_ADDR,
+                                       (*(volatile uint32_t *)((RAM_CP_ADDR + 4))));
 
         rom_hw_crg_enable_clk_gate(CRG_CP_CLK_GATE);
         rom_hw_crg_enable_clk_gate(CRG_CP_DAP_CLK_GATE);
@@ -155,398 +145,243 @@ static void system_enable_cp(void)
 }
 
 /**
- * @brief  Check if the system can enter sleep
- * @return false(0) - System can not goto sleep.
- * @return true(1)  - System can goto sleep.
- */
-static bool lpwr_before_sleep(void)
-{
-    return true;
-}
-
-/**
- * @brief  CPU after wakeup from sleep func.
- */
-static void lpwr_after_wakeup(void)
-{
-// System clock need configure to pll64m
-#if SYSTEM_CLOCK_PLL64M_ENABLED
-    uint32_t u32Value = 0;
-    uint32_t u32Time  = 0;
-    do
-    {
-        u32Time = lpwr_ctrl_get_ble_remain_sleep_time_us();
-        rom_hw_sys_ctrl_read_com_reg(SYS_CTRL_COM_REG_CP_WFI_FLAG, &u32Value);
-    } while ((u32Time <= DCXO_HCLK_STABLE_TIME) || (0 == u32Value));
-
-    rom_hal_pmu_set_sys_clk_src(EN_SYS_CLK_PLL64M, DCXO_HCLK_STABLE_TIME_2500US);
-#endif
-
-#if APP_DEBUG_ENABLED
-    app_debug_reinit();
-
-    PRINTF("A");
-#endif
-}
-
-/**
  * @brief  Low power init.
- * @param  enMode: System work mode, @ref EN_LPWR_MODE_SEL_T.
  */
 static void system_lpwr_init(EN_LPWR_MODE_SEL_T enMode)
 {
+    extern uint32_t RAM_APP_SIZE_KBYTE_MAX;
     patch_hal_pmu_set_sram_ret(RAM_APP_SIZE_KBYTE_MAX);
-    lpwr_ctrl_init(enMode, lpwr_before_sleep, lpwr_after_wakeup);
+    lpwr_ctrl_init(enMode, NULL, NULL);
 }
 
-#if SENSOR_SDK_TEST_ENABLED
-
-static char s_acLogBuf[192];
-
-static int32_t sensor_test_f_milli(float fVal)
+/* ================================================================
+ * OTA 事件回调
+ * ================================================================ */
+static void app_ota_progress_cb(uint8_t percent)
 {
-    return (int32_t)(fVal * 1000.0f);
+    PRINTF("[OTA] Downloading... %u%%\r\n", percent);
 }
 
-static void sensor_test_uart_puts(const char *pcStr)
+static void app_ota_complete_cb(uint8_t success, const char *msg)
 {
-    if ((NULL == pcStr) || (!bsp_uart_irt_is_ready()))
-    {
+    if (success) {
+        PRINTF("[OTA] Complete! Rebooting...\r\n");
+        rom_delay_ms(1000);
+        NVIC_SystemReset();
+    } else {
+        PRINTF("[OTA] Failed: %s\r\n", msg);
+    }
+}
+
+/* ================================================================
+ * 推理结果处理
+ * ================================================================ */
+static void app_inference_result_cb(model_result_t *result)
+{
+    static uint32_t s_fall_count = 0;
+    static uint32_t s_last_alert_tick = 0;
+    uint32_t now = get_system_tick_ms();
+
+    /* 置信度阈值 */
+    if (result->confidence < 0.75f) {
         return;
     }
-    (void)bsp_uart_irt_write((const uint8_t *)pcStr, (uint16_t)strlen(pcStr));
+
+    /* 检测到跌倒 */
+    if (result->class_id == 1) {
+        s_fall_count++;
+
+        /* 防抖：5秒内不重复报警 */
+        if ((now - s_last_alert_tick) > 5000) {
+            PRINTF("\r\n!!! FALL DETECTED !!!\r\n");
+            PRINTF("    Confidence: %.2f%%\r\n", result->confidence * 100);
+            PRINTF("    Inference time: %lu us\r\n",
+                   (unsigned long)result->inference_time_us);
+            PRINTF("    Fall count: %lu\r\n\r\n", (unsigned long)s_fall_count);
+
+            /* TODO: 通过 BLE 发送跌倒告警 */
+            /* ble_send_alert(BLE_ALERT_FALL, result->confidence); */
+
+            s_last_alert_tick = now;
+        }
+    }
 }
 
-static void sensor_test_uart_printf(const char *pcFmt, ...)
+/* ================================================================
+ * IMU 数据采集 (用于推理)
+ * ================================================================ */
+#if defined(USE_IMU9DOF) || defined(USE_IMU6DOF)
+#include "imu9dof.h"
+
+#define INFERENCE_WINDOW_SIZE   128  /* 128 samples @ 100Hz = 1.28秒 */
+#define INFERENCE_INTERVAL_MS  10   /* 100Hz sampling */
+
+static float g_accel_buf[INFERENCE_WINDOW_SIZE * 3];
+static float g_gyro_buf[INFERENCE_WINDOW_SIZE * 3];
+static uint16_t g_sample_idx = 0;
+static uint8_t g_window_ready = 0;
+
+static void app_collect_imu_sample(const imu9dof_sample_t *sample)
 {
-    va_list stArgs;
-    int     s32Len;
+    uint16_t idx = g_sample_idx % INFERENCE_WINDOW_SIZE;
 
-    va_start(stArgs, pcFmt);
-    s32Len = vsnprintf(s_acLogBuf, sizeof(s_acLogBuf), pcFmt, stArgs);
-    va_end(stArgs);
+    /* 加速度计 */
+    g_accel_buf[idx * 3] = sample->stAccel_g.fX;
+    g_accel_buf[idx * 3 + 1] = sample->stAccel_g.fY;
+    g_accel_buf[idx * 3 + 2] = sample->stAccel_g.fZ;
 
-    if (s32Len > 0)
-    {
-        if (s32Len >= (int)sizeof(s_acLogBuf))
-        {
-            s32Len = (int)sizeof(s_acLogBuf) - 1;
-        }
-        (void)bsp_uart_irt_write((const uint8_t *)s_acLogBuf, (uint16_t)s32Len);
+    /* 陀螺仪 */
+    g_gyro_buf[idx * 3] = sample->stGyro_dps.fX;
+    g_gyro_buf[idx * 3 + 1] = sample->stGyro_dps.fY;
+    g_gyro_buf[idx * 3 + 2] = sample->stGyro_dps.fZ;
+
+    g_sample_idx++;
+
+    if (g_sample_idx >= INFERENCE_WINDOW_SIZE) {
+        g_sample_idx = 0;
+        g_window_ready = 1;
     }
 }
 
-/**
- * @brief  Poll IMU / IR / ADC and dump ASCII lines on UART1 (PC @ IR baud).
- */
-static void sensor_sdk_test_run(void)
+static void app_run_inference_if_ready(void)
 {
-    EN_ERR_STA_T         enImuInit;
-    EN_ERR_STA_T         enIrInit;
-    EN_ERR_STA_T         enNtcInit;
-    EN_ERR_STA_T         enFusionInit;
-    EN_ERR_STA_T         enImuRead;
-    EN_ERR_STA_T         enMcuTemp;
-    EN_ERR_STA_T         enGdAmb;
-    imu9dof_sample_t     stImu;
-    gd60932_sample_t     stIr;
-    gd60932_cfg_t        stIrCfg;
-    ahrs_euler_t         stEuler;
-    ahrs_cfg_t           stAhrsCfg;
-    ntc_cfg_t            stNtcCfg;
-    ntc_sample_t         stNtc;
-    temp_fusion_cfg_t    stFusionCfg;
-    temp_fusion_input_t  stFusionIn;
-    temp_fusion_sample_t stFusionOut;
-    float                fMcu_C      = 0.0f;
-    float                fGdAmb_C    = 0.0f;
-    float                fAhrsDt_s   = 0.0f;
-    uint16_t             u16Bat_mV   = 0;
-    uint16_t             u16Ntc_mV   = 0;
-    uint32_t             u32Tick     = 0;
+    model_result_t result;
+    float features[128 * 6];  /* 模型输入: 128样本 x 6特征 */
 
-    ntc_cfg_default(&stNtcCfg);
-    enNtcInit = ntc_init(&stNtcCfg);
-
-    gd60932_cfg_default(&stIrCfg);
-#if GD60932_DEFAULT_SPEED_FS
-    stIrCfg.enSpeed = GD60932_SPEED_FS;
-#else
-    stIrCfg.enSpeed = GD60932_SPEED_MS;
-#endif
-    stIrCfg.enMode = GD60932_MODE_OBJECT;
-    enIrInit       = gd60932_init(&stIrCfg);
-
-    temp_fusion_cfg_default(&stFusionCfg);
-    enFusionInit = temp_fusion_init(&stFusionCfg);
-
-    sensor_test_uart_puts("\r\n==== SENSOR_SDK_TEST start ====\r\n");
-    sensor_test_uart_printf("PC serial baud = %s\r\n",
-                            (GD60932_SPEED_FS == stIrCfg.enSpeed) ? "115200" : "9600");
-    sensor_test_uart_printf("ntc_init=%d\r\n", (int)enNtcInit);
-    sensor_test_uart_printf("gd60932_init=%d\r\n", (int)enIrInit);
-    sensor_test_uart_printf("temp_fusion_init=%d\r\n", (int)enFusionInit);
-
-    enImuInit = imu9dof_init();
-    sensor_test_uart_printf("imu9dof_init=%d\r\n", (int)enImuInit);
-
-    memset(&stAhrsCfg, 0, sizeof(stAhrsCfg));
-    stAhrsCfg.enAlg         = AHRS_ALG_MADGWICK;
-    /* 与测试轮询周期一致；量产建议 50~100Hz 单独调用 ahrs_update */
-    fAhrsDt_s               = (float)SENSOR_SDK_TEST_PERIOD_MS / 1000.0f;
-    if (fAhrsDt_s <= 0.0f)
-    {
-        fAhrsDt_s = 0.01f;
+    if (!g_window_ready) {
+        return;
     }
-    stAhrsCfg.fSampleHz     = 1.0f / fAhrsDt_s;
-    stAhrsCfg.fMadgwickBeta = 0.1f;
-    stAhrsCfg.bMotionGateEn = true;   /* 振动时不信加计 */
-    stAhrsCfg.fAccNormTol_g = 0.15f;
-    stAhrsCfg.bRestBiasEn   = true;   /* 静止跟踪陀螺零偏 */
-    stAhrsCfg.fRestBiasAlpha = 0.01f;
-    ahrs_init(&stAhrsCfg);
+    g_window_ready = 0;
 
-#if BLE_SENSOR_SDK_ENABLED
-    (void)ble_sensor_sdk_init_mp(NULL);
-    sensor_test_uart_puts("ble_sensor_ipc ready\r\n");
+    /* 特征提取 */
+    int feat_cnt = model_extract_features(g_accel_buf, g_gyro_buf,
+                                         INFERENCE_WINDOW_SIZE, features);
+    if (feat_cnt <= 0) {
+        return;
+    }
+
+    /* 推理 */
+    if (model_run_inference(features, feat_cnt, &result) == 0) {
+        if (result.is_valid) {
+            app_inference_result_cb(&result);
+        }
+    }
+}
 #endif
 
-    for (;;)
-    {
-        memset(&stImu, 0, sizeof(stImu));
-        memset(&stIr, 0, sizeof(stIr));
-        memset(&stEuler, 0, sizeof(stEuler));
-
-        enImuRead = imu9dof_read(&stImu);
-        if (ERR_STA_OK == enImuRead)
-        {
-            ahrs_update(fAhrsDt_s, &stImu);
-            ahrs_get_euler(&stEuler);
-        }
-
-        memset(&stNtc, 0, sizeof(stNtc));
-        if (ERR_STA_OK != ntc_read_bat_mv(&u16Bat_mV))
-        {
-            u16Bat_mV = 0xFFFF;
-        }
-        if (ERR_STA_OK == ntc_measure(&stNtc))
-        {
-            u16Ntc_mV = stNtc.u16Adc_mV;
-        }
-        else
-        {
-            u16Ntc_mV = 0xFFFF;
-        }
-        enMcuTemp = ntc_read_mcu_c(&fMcu_C);
-
-        /* IR 与 PC 日志共用 UART1：先测物温，再测环境温，再打印 */
-        (void)gd60932_measure(&stIr);
-        rom_delay_ms(20);
-        (void)bsp_uart_irt_flush_rx();
-        enGdAmb = gd60932_read_ambient_c(&fGdAmb_C);
-        rom_delay_ms(20);
-        (void)bsp_uart_irt_flush_rx();
-
-        memset(&stFusionIn, 0, sizeof(stFusionIn));
-        memset(&stFusionOut, 0, sizeof(stFusionOut));
-        if (stIr.bValid)
-        {
-            stFusionIn.fGdObj_C    = stIr.fTempC;
-            stFusionIn.bGdObjValid = true;
-        }
-        if (ERR_STA_OK == enGdAmb)
-        {
-            stFusionIn.fGdAmb_C    = fGdAmb_C;
-            stFusionIn.bGdAmbValid = true;
-        }
-        if (stNtc.bValid)
-        {
-            stFusionIn.fNtc_C    = stNtc.fTemp_C;
-            stFusionIn.bNtcValid = true;
-        }
-        if (ERR_STA_OK == enMcuTemp)
-        {
-            stFusionIn.fMcu_C    = fMcu_C;
-            stFusionIn.bMcuValid = true;
-        }
-        if (ERR_STA_OK == enImuRead)
-        {
-            stFusionIn.fImu_C    = stImu.fTemp_C;
-            stFusionIn.bImuValid = true;
-        }
-        (void)temp_fusion_update(&stFusionIn, &stFusionOut);
-
-#if BLE_SENSOR_SDK_ENABLED
-        {
-            ble_sensor_sample_t stBle;
-            ble_sensor_sample_clear(&stBle);
-            stBle.u8Seq = (uint8_t)(u32Tick & 0xFFu);
-            stBle.u16Bat_mV = u16Bat_mV;
-            stBle.u16Ntc_mV = u16Ntc_mV;
-            if (0u != (stFusionOut.u16Flags & TEMP_FUSION_FLAG_OBJ_VALID))
-            {
-                stBle.u8Flags |= BLE_SENSOR_FLAG_IR_VALID;
-                stBle.s16IrTenths = (int16_t)(stFusionOut.fObj_C * 10.0f);
-            }
-            else if (stIr.bValid)
-            {
-                stBle.u8Flags |= BLE_SENSOR_FLAG_IR_VALID;
-                stBle.s16IrTenths = (int16_t)stIr.s32RawTenths;
-            }
-            if (ERR_STA_OK == enImuRead)
-            {
-                stBle.s16AccMg[0] = (int16_t)sensor_test_f_milli(stImu.stAccel_g.fX);
-                stBle.s16AccMg[1] = (int16_t)sensor_test_f_milli(stImu.stAccel_g.fY);
-                stBle.s16AccMg[2] = (int16_t)sensor_test_f_milli(stImu.stAccel_g.fZ);
-                stBle.s16GyrDpsx10[0] = (int16_t)(stImu.stGyro_dps.fX * 10.0f);
-                stBle.s16GyrDpsx10[1] = (int16_t)(stImu.stGyro_dps.fY * 10.0f);
-                stBle.s16GyrDpsx10[2] = (int16_t)(stImu.stGyro_dps.fZ * 10.0f);
-                stBle.s16ImuTempTenths = (int16_t)(stImu.fTemp_C * 10.0f);
-                stBle.s16Roll_cdeg  = (int16_t)(stEuler.fRoll_deg * 100.0f);
-                stBle.s16Pitch_cdeg = (int16_t)(stEuler.fPitch_deg * 100.0f);
-                stBle.s16Yaw_cdeg   = (int16_t)(stEuler.fYaw_deg * 100.0f);
-                if (stImu.bMagValid)
-                {
-                    stBle.u8Flags |= BLE_SENSOR_FLAG_MAG_VALID;
-                    stBle.s16Mag_uTx10[0] = (int16_t)(stImu.stMag_uT.fX_uT * 10.0f);
-                    stBle.s16Mag_uTx10[1] = (int16_t)(stImu.stMag_uT.fY_uT * 10.0f);
-                    stBle.s16Mag_uTx10[2] = (int16_t)(stImu.stMag_uT.fZ_uT * 10.0f);
-                }
-            }
-            (void)ble_sensor_ipc_send_sample(&stBle);
-        }
+/* ================================================================
+ * 主循环
+ * ================================================================ */
+static void app_main_loop(void)
+{
+#if defined(USE_IMU9DOF) || defined(USE_IMU6DOF)
+    imu9dof_sample_t imu;
 #endif
 
-        sensor_test_uart_printf("\r\n-- tick %lu --\r\n", (unsigned long)u32Tick++);
-        sensor_test_uart_printf("BAT_ADC=%umV NTC_ADC=%umV\r\n",
-                                (unsigned)u16Bat_mV, (unsigned)u16Ntc_mV);
-        if (stNtc.bValid)
-        {
-            sensor_test_uart_printf("NTC_R=%luohm NTC_mC=%ld\r\n",
-                                    (unsigned long)stNtc.u32R_ohm,
-                                    (long)sensor_test_f_milli(stNtc.fTemp_C));
-        }
-        else
-        {
-            sensor_test_uart_puts("NTC_TEMP=FAIL\r\n");
-        }
+    /* BLE OTA 任务 */
+    /* 实际项目中通过 BLE 事件触发，这里做后台处理 */
 
-        if (stIr.bValid)
-        {
-            sensor_test_uart_printf("IR_OBJ_mC=%ld raw_tenths=%ld\r\n",
-                                    (long)sensor_test_f_milli(stIr.fTempC),
-                                    (long)stIr.s32RawTenths);
-        }
-        else
-        {
-            sensor_test_uart_puts("IR_OBJ=FAIL\r\n");
-        }
+#if defined(USE_IMU9DOF) || defined(USE_IMU6DOF)
+    /* 读取 IMU 数据 */
+    if (imu9dof_read(&imu) == ERR_STA_OK) {
+        app_collect_imu_sample(&imu);
+    }
 
-        if (ERR_STA_OK == enGdAmb)
-        {
-            sensor_test_uart_printf("IR_AMB_mC=%ld\r\n",
-                                    (long)sensor_test_f_milli(fGdAmb_C));
-        }
-        else
-        {
-            sensor_test_uart_printf("IR_AMB=FAIL %d\r\n", (int)enGdAmb);
-        }
+    /* 运行推理 */
+    app_run_inference_if_ready();
+#endif
 
-        if (ERR_STA_OK == enMcuTemp)
-        {
-            sensor_test_uart_printf("MCU_TEMP_mC=%ld\r\n",
-                                    (long)sensor_test_f_milli(fMcu_C));
-        }
-        else
-        {
-            sensor_test_uart_printf("MCU_TEMP=FAIL %d\r\n", (int)enMcuTemp);
-        }
+    /* 低功耗延时 */
+    rom_delay_ms(INFERENCE_INTERVAL_MS);
+}
 
-        if (0u != (stFusionOut.u16Flags & (TEMP_FUSION_FLAG_OBJ_VALID | TEMP_FUSION_FLAG_AMB_VALID |
-                                           TEMP_FUSION_FLAG_OBJ_STALE)))
-        {
-            sensor_test_uart_printf("FUSION_OBJ_mC=%ld AMB_mC=%ld flags=0x%04X\r\n",
-                                    (long)sensor_test_f_milli(stFusionOut.fObj_C),
-                                    (long)sensor_test_f_milli(stFusionOut.fAmb_C),
-                                    (unsigned)stFusionOut.u16Flags);
-        }
-        else
-        {
-            sensor_test_uart_puts("FUSION=FAIL\r\n");
-        }
+/* ================================================================
+ * 正常模式入口
+ * ================================================================ */
+static void app_mode_normal(void)
+{
+    /* 初始化 Boot Manager */
+    boot_manager_init();
 
-        if (ERR_STA_OK == enImuRead)
-        {
-            sensor_test_uart_printf("ACC_mg=%ld,%ld,%ld\r\n",
-                                    (long)sensor_test_f_milli(stImu.stAccel_g.fX),
-                                    (long)sensor_test_f_milli(stImu.stAccel_g.fY),
-                                    (long)sensor_test_f_milli(stImu.stAccel_g.fZ));
-            sensor_test_uart_printf("GYR_mdps=%ld,%ld,%ld\r\n",
-                                    (long)sensor_test_f_milli(stImu.stGyro_dps.fX),
-                                    (long)sensor_test_f_milli(stImu.stGyro_dps.fY),
-                                    (long)sensor_test_f_milli(stImu.stGyro_dps.fZ));
-            sensor_test_uart_printf("IMU_TEMP_mC=%ld\r\n",
-                                    (long)sensor_test_f_milli(stImu.fTemp_C));
-            if (stImu.bMagValid)
-            {
-                sensor_test_uart_printf("MAG_uT_x1000=%ld,%ld,%ld\r\n",
-                                        (long)sensor_test_f_milli(stImu.stMag_uT.fX_uT),
-                                        (long)sensor_test_f_milli(stImu.stMag_uT.fY_uT),
-                                        (long)sensor_test_f_milli(stImu.stMag_uT.fZ_uT));
-            }
-            else
-            {
-                sensor_test_uart_puts("MAG=INVALID\r\n");
-            }
-            sensor_test_uart_printf("EULER_mdeg R/P/Y=%ld,%ld,%ld\r\n",
-                                    (long)sensor_test_f_milli(stEuler.fRoll_deg),
-                                    (long)sensor_test_f_milli(stEuler.fPitch_deg),
-                                    (long)sensor_test_f_milli(stEuler.fYaw_deg));
-        }
-        else
-        {
-            sensor_test_uart_printf("IMU_READ_FAIL=%d\r\n", (int)enImuRead);
-        }
+    /* 检查启动模式 */
+    boot_mode_t boot_mode = boot_get_mode();
+    if (boot_mode == BOOT_MODE_OTA) {
+        PRINTF("[APP] OTA boot confirmed, switching to new firmware\r\n");
+        boot_confirm_ota_success();
+    }
 
-        rom_delay_ms(SENSOR_SDK_TEST_PERIOD_MS);
+    /* 初始化模型推理 */
+    int model_ret = model_inference_init();
+    if (model_ret == 0) {
+        PRINTF("[APP] Model inference ready\r\n");
+        model_dump_info();
+    } else {
+        PRINTF("[APP] Model init returned %d (may load via OTA later)\r\n", model_ret);
+    }
+
+    /* 初始化 BLE OTA 服务 */
+    g_ota_handle.progress_cb = app_ota_progress_cb;
+    g_ota_handle.complete_cb = app_ota_complete_cb;
+    ble_ota_service_init(NULL);
+
+#if defined(USE_IMU9DOF) || defined(USE_IMU6DOF)
+    /* 初始化 IMU */
+    if (imu9dof_init() == ERR_STA_OK) {
+        PRINTF("[APP] IMU initialized\r\n");
+    } else {
+        PRINTF("[APP] IMU init failed!\r\n");
+    }
+#endif
+
+    PRINTF("[APP] Normal mode started\r\n");
+    PRINTF("[APP] Waiting for BLE connection or IMU data...\r\n");
+
+    /* 主循环 */
+    for (;;) {
+        app_main_loop();
     }
 }
 
-#endif /* SENSOR_SDK_TEST_ENABLED */
-
-/**
- * @brief  main function.
- * @return 0.
- */
+/* ================================================================
+ * main 入口
+ * ================================================================ */
 int main(void)
 {
-    // Disable watchdog timer.
+    /* 关闭看门狗 */
     rom_hw_wdt_disable(WDT0);
-
     rom_delay_ms(100);
 
+    /* 系统初始化 */
     system_power_init(PWR_SEL_LDO);
     system_clock_init(EN_SYS_CLK_DCXO16M);
     peripheral_init();
     system_lpwr_init(LPWR_MODE_SLEEP);
     system_enable_cp();
 
-#if TFLM_HELLO_TEST_ENABLED
-    PRINTF("\r\n==== TFLM Hello World test ====\r\n");
-    if (0 == tflm_hello_selftest())
-    {
-        float y = 0.f;
-        (void)tflm_hello_infer(1.57f, &y);
-        PRINTF("[TFLM] infer(pi/2)=%.3f (expect ~1.0)\r\n", (double)y);
-    }
-    PRINTF("==== TFLM test done ====\r\n");
-#endif
+    /* 根据模式选择入口 */
+#if APP_RUN_MODE == APP_MODE_NORMAL
+    app_mode_normal();
 
-#if SENSOR_SDK_TEST_ENABLED
-    sensor_sdk_test_run(); /* never returns */
+#elif APP_RUN_MODE == APP_MODE_SENSOR_TEST
+    /* 传感器测试模式 */
+    extern void sensor_sdk_test_run(void);
+    sensor_sdk_test_run();  /* never returns */
+
+#elif APP_RUN_MODE == APP_MODE_DATA_LOGGER
+    /* 数据采集模式 */
+    extern void data_logger_task(void);
+    data_logger_task();  /* never returns */
+
+#elif APP_RUN_MODE == APP_MODE_OTA
+    /* OTA 模式 - 只接收 BLE 数据，不运行推理 */
+    ble_ota_service_init(NULL);
+    for (;;) {
+        rom_delay_ms(100);
+    }
+
 #else
-    for (;;)
-    {
+    /* 默认: 低功耗待机 */
+    for (;;) {
         lpwr_ctrl_goto_sleep();
     }
 #endif

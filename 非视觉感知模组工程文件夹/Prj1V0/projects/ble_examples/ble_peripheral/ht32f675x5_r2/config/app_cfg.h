@@ -165,6 +165,62 @@
 #define TFLM_HELLO_TEST_ENABLED            (1)
 #endif
 
+//=============================================================================
+// DATA LOGGER (Fall Detection Training Data Collection)
+//=============================================================================
+/* Data logger for IMU data collection (training phase) */
+#ifndef DATA_LOGGER_ENABLED
+#define DATA_LOGGER_ENABLED               (1)   // 0=Disable, 1=Enable data collection
+#endif
+
+/* Data collection mode: 0=ADL (Daily Activities), 1=FALL (Fall events) */
+#ifndef DATA_LOGGER_TYPE
+#define DATA_LOGGER_TYPE                 (0)   // 0=ADL, 1=FALL
+#endif
+
+/* Number of samples per capture session (~5s @ 100Hz = 512 samples) */
+#ifndef DATA_LOGGER_SAMPLE_COUNT
+#define DATA_LOGGER_SAMPLE_COUNT         (512)
+#endif
+
+/* UART baudrate for data output */
+#ifndef DATA_LOGGER_UART_BAUD
+#define DATA_LOGGER_UART_BAUD            (460800)
+#endif
+
+//=============================================================================
+// IMU / SPI PINS
+//=============================================================================
+#define GPIO_PORT_IMU_DRDY               (GPIOA)
+#define GPIO_PIN_IMU_DRDY                (GPIO_PIN_27)
+#define GPIO_MASTER_PORT_SPI_CS          (GPIOA)
+#define GPIO_MASTER_PIN_SPI_CS            (GPIO_PIN_24)
+#define GPIO_MASTER_PORT_SPI_CLK         (GPIOA)
+#define GPIO_MASTER_PIN_SPI_CLK          (GPIO_PIN_27)
+#define GPIO_MASTER_PORT_SPI_SI          (GPIOB)
+#define GPIO_MASTER_PIN_SPI_SI           (GPIO_PIN_21)
+#define GPIO_MASTER_PORT_SPI_SO          (GPIOB)
+#define GPIO_MASTER_PIN_SPI_SO           (GPIO_PIN_17)
+#define SPI_MASTER_HANDLE                 (SPI0)
+
+//=============================================================================
+// FALL DETECTION (Inference Phase)
+//=============================================================================
+/* Fall detection inference (after model training) */
+#ifndef FALL_DETECT_ENABLED
+#define FALL_DETECT_ENABLED              (0)   // 0=Disable, 1=Enable inference
+#endif
+
+/* Fall detection threshold (0.0 ~ 1.0) */
+#ifndef FALL_DETECT_THRESHOLD
+#define FALL_DETECT_THRESHOLD            (0.70f)
+#endif
+
+/* Sliding window size for inference */
+#ifndef FALL_DETECT_WINDOW_SIZE
+#define FALL_DETECT_WINDOW_SIZE         (128)  // ~1.28s @ 100Hz
+#endif
+
 
 //=====================================================================================================================
 // SYSTEM CONTROL COMMON REGISTER DEFINE
