@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_projx.xsd">
+
+  <SchemaVersion>2.1</SchemaVersion>
+
+  <Header>### uVision Project, (C) Keil Software</Header>
+
+  <Targets>
+    <Target>
+      <TargetName>Test</TargetName>
+      <ToolsetNumber>0x4</ToolsetNumber>
+      <ToolsetName>ARM-ADS</ToolsetName>
+      <TargetOption>
+        <TargetCommonOption>
+          <Device>HT32F67595_28LGA:CM33</Device>
+          <Vendor>Holtek</Vendor>
+          <PackID>Holtek.HT32F675x5_DFP.1.0.5</PackID>
+          <PackURL>https://mcu.holtek.com.tw/pack</PackURL>
+        </TargetCommonOption>
+      </TargetOption>
+    </Target>
+  </Targets>
+
+</Project>

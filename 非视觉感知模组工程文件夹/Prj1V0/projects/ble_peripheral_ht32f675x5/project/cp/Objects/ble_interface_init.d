@@ -1,0 +1,16 @@
+./objects/ble_interface_init.o: \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_init\ble_interface_init.c \
+  ..\..\config\ble_config.h \
+  ..\..\..\..\sources\components\ht32f675x5_r2\utility\err_def.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\hal\inc\hal_rf.h \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\llc\llc_spec_5_1.h \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\interface\llc_llp_interface.h \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\llp\llp_hw.h \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\llp\llp.h \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\llc\llc.h \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\interface\hci.h \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\stack\host_stack\bluetooth.h \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\stack\host_stack\host_stack_conn_hdl.h \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\interface\host_interface.h \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\interface\controller_event_mask.h \
+  ..\..\..\..\sources\ble5.1\ht32f675x5_r2\ble_stack\interface\controller_interface.h

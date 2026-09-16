@@ -189,7 +189,7 @@ EN_ERR_STA_T bsp_uart_irt_read(uint8_t *pu8Buf, uint16_t u16MaxLen, uint16_t *pu
         *pu16Got = 0;
     }
 
-    while ((u16Cnt < u16MaxLen) && (u32Elapsed < u32TimeoutMs))
+    while ((u16Cnt < u16MaxLen) && (u32Elapsed <= u32TimeoutMs))
     {
         (void)rom_hw_uart_get_rxfifo_cnt(GD60932_UART_HANDLE, &u8Fifo);
         if (u8Fifo > 0u)
@@ -202,7 +202,6 @@ EN_ERR_STA_T bsp_uart_irt_read(uint8_t *pu8Buf, uint16_t u16MaxLen, uint16_t *pu
                 {
                     break;
                 }
-                continue;
             }
         }
         rom_delay_ms(1);

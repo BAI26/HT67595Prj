@@ -29,6 +29,11 @@
 #ifndef __APP_FLASH_H__
 #define __APP_FLASH_H__
 
+#include "err_def.h"
+#include "sflash.h"
+#include "RegHT32F675x5.h"
+#include "hw_flash.h"
+
 /**
  * @brief  Read sip flash memory from indicated start address with indicated access mode.
  * @param  u32Addr: Start Address of SIP FLASH MEMORY.

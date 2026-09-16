@@ -212,8 +212,9 @@ class GatedCNN(nn.Module):
         
         seq_len, n_features = self.config.input_shape
         
-        # 特征嵌入
+        # 特征嵌入 (使用 Xavier 初始化)
         self.embedding = nn.Linear(n_features, 32)
+        nn.init.xavier_uniform_(self.embedding.weight)
         
         # Gated-CNN 块
         self.gated_blocks = nn.ModuleList()
@@ -240,18 +241,43 @@ class GatedCNN(nn.Module):
         self.global_avg_pool = nn.AdaptiveAvgPool1d(1)
         self.global_max_pool = nn.AdaptiveMaxPool1d(1)
         
-        # 分类器
-        concat_features = self.config.filters[-1] * 2  # avg + max
-        self.classifier = nn.Sequential(
-            nn.Linear(concat_features, 32),
+        # 跌倒特征层 (检测高加速度变化)
+        # 使用 adaptive pooling 保持输出长度一致
+        self.fall_pool = nn.AdaptiveAvgPool1d(seq_len)  # 保持 seq_len = 100
+        self.fall_detector = nn.Sequential(
+            nn.Linear(seq_len, 32),
             nn.ReLU(),
-            nn.Dropout(self.config.dropout_rate),
-            nn.Linear(32, 16),
-            nn.ReLU(),
-            nn.Dropout(self.config.dropout_rate),
-            nn.Linear(16, 1),
-            nn.Sigmoid()
+            nn.Dropout(0.2)
         )
+        
+        # 分类器 (不使用 Sigmoid, BCEWithLogitsLoss 会处理)
+        concat_features = self.config.filters[-1] * 2 + 32  # avg + max + fall特征
+        self.classifier = nn.Sequential(
+            nn.Linear(concat_features, 64),
+            nn.BatchNorm1d(64),
+            nn.ReLU(),
+            nn.Dropout(self.config.dropout_rate),
+            nn.Linear(64, 32),
+            nn.BatchNorm1d(32),
+            nn.ReLU(),
+            nn.Dropout(self.config.dropout_rate),
+            nn.Linear(32, 1)
+        )
+        
+        # 权重初始化
+        self._init_weights()
+    
+    def _init_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Linear):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Conv1d):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+            elif isinstance(m, nn.BatchNorm1d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
     
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # x shape: (batch, seq_len, features)
@@ -272,8 +298,15 @@ class GatedCNN(nn.Module):
         avg_pool = self.global_avg_pool(x_attn).squeeze(-1)  # (batch, channels)
         max_pool = self.global_max_pool(x).squeeze(-1)  # (batch, channels)
         
+        # 跌倒特征: 直接从原始输入计算加速度幅值变化
+        # 这有助于检测跌倒时的高加速度冲击
+        acc_magnitude = torch.sqrt(x_for_attn[:, :3, :].pow(2).sum(dim=1))  # (batch, seq_len)
+        # 使用 adaptive pool 保持长度一致
+        acc_pooled = self.fall_pool(acc_magnitude.unsqueeze(1)).squeeze(1)  # (batch, seq_len)
+        fall_features = self.fall_detector(acc_pooled)  # (batch, 32)
+        
         # 拼接
-        features = torch.cat([avg_pool, max_pool], dim=1)  # (batch, concat_features)
+        features = torch.cat([avg_pool, max_pool, fall_features], dim=1)  # (batch, concat_features)
         
         # 分类
         output = self.classifier(features)

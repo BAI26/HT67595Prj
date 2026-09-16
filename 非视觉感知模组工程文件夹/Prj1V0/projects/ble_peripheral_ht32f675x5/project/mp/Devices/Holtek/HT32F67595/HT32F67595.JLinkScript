@@ -1,0 +1,54 @@
+/*************************************************************************************************************
+ * @file    HT32F67595.JLinkScript
+ * @brief   JLink Script for Holtek HT32F67595_28LGA (Cortex-M33)
+ * @note    This script configures JLink for proper flash download on HT32F67595
+ *          RAM Layout (256KB total, 0x20000000-0x2003FFFF):
+ *            0x20000000 - 0x200007FF: RAM_MP_ROM_DATA (2KB, reserved by ROM)
+ *            0x20000800 - 0x20001FFF: RAM_CP_ROM_DATA (6KB, reserved by ROM)
+ *            0x20002000 - 0x20002FFF: RAM_ROM_DATA (4KB, reserved by ROM)
+ *            0x20003000 - 0x20003FFF: RAM_2ND_BOOT (4KB, reserved by ROM)
+ *            0x20004000 - 0x2003FFFF: Available for application (240KB)
+ *          Flash: 512KB at 0x10000000
+ *************************************************************************************************************/
+
+/*************************************************************************************************************
+ * Called after JLink connects to the target and reads the device ID
+ *************************************************************************************************************/
+void AfterReset(void) {
+  // Unlock flash programming
+  // FLASH_CR unlock sequence (typical for ARM Cortex-M based MCUs)
+  Write32(0x40021020, 0x45670123);  // FLASH_KEYR unlock key
+  Write32(0x40021020, 0xCDEF89AB);  // FLASH_KEYR unlock key
+
+  // Wait for flash controller to be ready
+  int timeout = 1000;
+  while ((Read32(0x40021020 + 0x0E) & 0x01) && (timeout-- > 0)) {
+    // BSY flag set - wait
+  }
+}
+
+/*************************************************************************************************************
+ * Called before JLink loads the flash algorithm
+ *************************************************************************************************************/
+int BeforeLoad(void) {
+  // Ensure clocks are configured for flash programming
+  // Enable FLASH clock (typically in RCC)
+  Write32(0x40021000 + 0x30, Read32(0x40021000 + 0x30) | (1 << 15));  // Enable FLASH clock
+
+  return 0;
+}
+
+/*************************************************************************************************************
+ * Called after JLink loads the flash algorithm
+ *************************************************************************************************************/
+int AfterLoad(void) {
+  return 0;
+}
+
+/*************************************************************************************************************
+ * Called when JLink reads the target memory map
+ * We use this to ensure JLink knows the correct memory layout
+ *************************************************************************************************************/
+int ReadMem(U32 addr, U32 len, void *data) {
+  return 0;  // Use default handling
+}

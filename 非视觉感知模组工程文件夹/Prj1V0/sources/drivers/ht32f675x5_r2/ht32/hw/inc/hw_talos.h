@@ -26,7 +26,7 @@
  ************************************************************************************************************/
 
 
-#ifdef _HW_TALOS_H_
+#ifndef _HW_TALOS_H_
 #define _HW_TALOS_H_
 
 //=====================================================================================================================
@@ -61,8 +61,8 @@ typedef enum
 * @param  - u32TickPriority : 
 * @output 
 * @return   @ref EN_HAL_STA_T
-/**********************************************************************************************************************/
-extern EN_HW_STA_T hw_init_tick( uint32_t u32Priority );
+***********************************************************************************************************************/
+extern EN_ERR_STA_T hw_init_tick( uint32_t u32Priority );
 
 
 /**********************************************************************************************************
@@ -81,7 +81,7 @@ extern EN_HW_STA_T hw_init_tick( uint32_t u32Priority );
 * @output 
 * @return   @ref EN_HAL_STA_T
 *********************************************************************************************************/
-extern EN_HW_STA_T hw_sys_config_clock( void );
+extern EN_ERR_STA_T hw_sys_config_clock( void );
 
 
 /**********************************************************************************************************
@@ -100,7 +100,7 @@ extern EN_HW_STA_T hw_sys_config_clock( void );
 * @output 
 * @return   @ref EN_HAL_STA_T
 *********************************************************************************************************/
-extern EN_HW_STA_T hw_switch_main_freq( EN_MAIN_FREQ_T enFreq );
+extern EN_ERR_STA_T hw_switch_main_freq( EN_MAIN_FREQ_T enFreq );
 
 
 /**********************************************************************************************************
@@ -119,7 +119,7 @@ extern EN_HW_STA_T hw_switch_main_freq( EN_MAIN_FREQ_T enFreq );
 * @output 
 * @return   @ref EN_HAL_STA_T
 *********************************************************************************************************/
-extern EN_HW_STA_T hw_init( void );
+extern EN_ERR_STA_T hw_init( void );
 
 
 /**********************************************************************************************************
@@ -128,7 +128,7 @@ extern EN_HW_STA_T hw_init( void );
 * @note This function is optional.
 * @retval HAL status
 ***********************************************************************************************************/
-extern EN_HW_STA_T hw_deinit( void );
+extern EN_ERR_STA_T hw_deinit( void );
 
 /**********************************************************************************************************
 * @brief This function is called to increment  a global variable "uwTick"
@@ -241,4 +241,6 @@ extern uint32_t hw_get_revision_id( void );
 * @retval Device revision identifier
 ***********************************************************************************************************/
 extern uint32_t hw_get_device_id( void );
+
+#endif /* _HW_TALOS_H_ */
 

@@ -1,19 +1,19 @@
 {
-  "total_tokens_used": 25000,
-  "total_tokens_baseline": 5000,
-  "total_tokens_saved": 0,
-  "total_sessions": 2,
-  "total_files_avoided": 0,
-  "avg_crush_ratio": 0.1,
-  "cost_saved_usd": 0,
-  "cost_baseline_usd": 0.02,
-  "cost_actual_usd": 0.08,
+  "total_tokens_used": 74822,
+  "total_tokens_baseline": 45977,
+  "total_tokens_saved": 6606,
+  "total_sessions": 62,
+  "total_files_avoided": 5,
+  "avg_crush_ratio": 1,
+  "cost_saved_usd": 0.02,
+  "cost_baseline_usd": 0.14,
+  "cost_actual_usd": 0.22,
   "by_ide": {
     "antigravity": {
-      "sessions": 2,
-      "tokens_used": 25000,
-      "tokens_baseline": 5000,
-      "tokens_saved": 0
+      "sessions": 62,
+      "tokens_used": 74822,
+      "tokens_baseline": 45977,
+      "tokens_saved": 6606
     }
   },
   "by_task": {

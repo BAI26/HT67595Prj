@@ -5,12 +5,20 @@
 #include "boot_manager.h"
 #include "app_cfg_ota.h"
 #include "ht32f675x5_flash.h"
+#include "app_flash.h"
+
+#include <string.h>
+#include "ARMCM33_DSP_FP.h"
 
 extern uint32_t _estack;  /* From linker script */
 
 /* Boot 信息 */
 static boot_info_t g_boot_info __attribute__((section(".boot_info")));
 static boot_info_t g_boot_info_ram;
+
+/* 前向声明 */
+static void boot_save_info(void);
+static uint32_t calc_crc32(uint8_t *data, uint32_t len);
 
 /**
  * @brief   Boot 管理器初始化
@@ -53,9 +61,10 @@ static void boot_save_info(void)
     g_boot_info_ram.crc = calc_crc32((uint8_t *)&g_boot_info_ram, 
                                       sizeof(boot_info_t) - 4);
     
-    /* 写入 Flash */
-    FLASH_EraseSector(BOOT_INFO_ADDR);
-    FLASH_ProgramPage(BOOT_INFO_ADDR, (uint32_t *)&g_boot_info_ram);
+    /* 写入 Flash（先擦除4KB扇区，再写入） */
+    app_flash_erase(ERASE_SECTOR, 1);
+    app_flash_write(BOOT_INFO_ADDR, (uint8_t *)&g_boot_info_ram,
+                    sizeof(boot_info_t), BUS_MODE_QPI);
 }
 
 /**

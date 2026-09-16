@@ -1,0 +1,36 @@
+./objects/system_armcm33.o: \
+  ..\..\..\..\sources\device\ht32f675x5\Source\system_ARMCM33.c \
+  ..\..\..\..\sources\device\ht32f675x5\Include\ARMCM33_DSP_FP.h \
+  ..\..\..\..\third_party\CMSIS\5.7.0\CMSIS\Include\core_cm33.h \
+  ..\..\..\..\sources\device\ht32f675x5\Include\system_ARMCM33.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\hw\inc\hw_wdt.h \
+  ..\..\..\..\sources\components\ht32f675x5_r2\utility\err_def.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_wdt.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\RegHT32F675x5.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_adc.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_adc_ana.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_audio.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_cache.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_cpto.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_crg.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_dma.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_ecc.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_efuse.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_gpio.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_i2c.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_i2s.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_pmu.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_qdec.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_qspi.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_rfsec.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_rtc.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_rtc_pdw.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_spi.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_stim.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_sys_ctrl.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_timer.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_trng.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_uart.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_usb_ctrl.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\reg_usb_phy.h \
+  ..\..\..\..\sources\drivers\ht32f675x5_r2\ht32\register\ht32f675x5_reg.h

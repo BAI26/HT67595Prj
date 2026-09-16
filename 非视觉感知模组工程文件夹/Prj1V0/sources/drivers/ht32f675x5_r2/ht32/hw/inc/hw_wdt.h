@@ -29,9 +29,13 @@
 #ifndef __HW_WDT_H__
 #define __HW_WDT_H__
 
+#include "err_def.h"
+#include "reg_wdt.h"
+#include "RegHT32F675x5.h"
+
 #ifdef __cplusplus
     extern "C" {
-#endif 
+#endif
 
 
 

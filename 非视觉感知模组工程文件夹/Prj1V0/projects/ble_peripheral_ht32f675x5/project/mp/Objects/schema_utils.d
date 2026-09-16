@@ -1,0 +1,25 @@
+./objects/schema_utils.o: \
+  ..\..\..\..\third_party\tflm-tree\tensorflow\compiler\mlir\lite\schema\schema_utils.cc \
+  ..\..\..\..\third_party\tflm-tree\tensorflow\compiler\mlir\lite\schema\schema_utils.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\flatbuffers.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\array.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\base.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\stl_emulation.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\vector.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\buffer.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\buffer_ref.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\verifier.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\detached_buffer.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\allocator.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\default_allocator.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\flatbuffer_builder.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\string.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\struct.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\table.h \
+  ..\..\..\..\third_party\tflm-tree\third_party\flatbuffers\include\flatbuffers\vector_downward.h \
+  ..\..\..\..\third_party\tflm-tree\tensorflow\compiler\mlir\lite\schema\schema_generated.h \
+  ..\..\..\..\third_party\tflm-tree\tensorflow\lite\schema\schema_generated.h \
+  ..\..\..\..\third_party\tflm-tree\tensorflow\compiler\mlir\lite\kernels\internal\compatibility_macros.h \
+  ..\..\..\..\third_party\tflm-tree\tensorflow\lite\kernels\internal\compatibility.h \
+  ..\..\..\..\third_party\tflm-tree\tensorflow\lite\kernels\op_macros.h \
+  ..\..\..\..\third_party\tflm-tree\tensorflow\lite\micro\micro_log.h

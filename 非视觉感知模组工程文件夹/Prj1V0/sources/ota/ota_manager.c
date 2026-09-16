@@ -4,8 +4,10 @@
  * @note    支持 A/B 双区升级，多模型切换
  */
 #include "ota_manager.h"
-#include "ht32f675x5_flash.h"
+#include "app_flash.h"
 #include "string.h"
+
+#include "ARMCM33_DSP_FP.h"
 
 /* Flash 编程参数 */
 #define FLASH_PAGE_SIZE    256
@@ -55,8 +57,8 @@ uint32_t flash_crc32(uint32_t addr, uint32_t len)
  */
 uint8_t flash_write_page(uint32_t addr, const uint8_t *data)
 {
-    /* 调用 HAL 库函数 */
-    FLASH_ProgramPage(addr, (uint32_t *)data);
+    /* 使用 app_flash API 写入一个页 (256 bytes) */
+    app_flash_write(addr, (uint8_t *)data, FLASH_PAGE_SIZE, BUS_MODE_QPI);
     return 0;
 }
 
@@ -65,7 +67,8 @@ uint8_t flash_write_page(uint32_t addr, const uint8_t *data)
  */
 uint8_t flash_erase_sector(uint32_t addr)
 {
-    FLASH_EraseSector(addr);
+    /* 使用 app_flash API 擦除一个扇区 (4KB) */
+    app_flash_erase(ERASE_SECTOR, 1);
     return 0;
 }
 

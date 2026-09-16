@@ -4,6 +4,10 @@
  */
 #include "ble_ota_service.h"
 #include "ota_manager.h"
+#include "ARMCM33_DSP_FP.h"
+#include <stddef.h>   /* for NULL */
+#include <string.h>   /* for memcpy/memmove */
+#include "utility.h"  /* for rom_delay_ms */
 
 /* 包头结构 */
 typedef struct {
@@ -106,7 +110,7 @@ void ble_ota_on_data_received(const uint8_t *data, uint16_t len)
             case BLE_OTA_CMD_REBOOT:
                 /* 重启到新固件 */
                 ble_ota_send_response(BLE_OTA_STATUS_SUCCESS, hdr->seq, NULL, 0);
-                delay_ms(100);
+                rom_delay_ms(100);
                 NVIC_SystemReset();
                 break;
                 

@@ -8,18 +8,8 @@
 
 #include <stdint.h>
 
-/* Flash 地址定义 */
-#define FLASH_BASE_ADDR          0x10000000
-#define FLASH_APP_A_ADDR        0x10002000
-#define FLASH_APP_A_SIZE         (150 * 1024)
-#define FLASH_APP_B_ADDR         0x10027800
-#define FLASH_APP_B_SIZE         (150 * 1024)
-#define FLASH_MODEL_SLOT1_ADDR   0x1004D000
-#define FLASH_MODEL_SLOT1_SIZE   (40 * 1024)
-#define FLASH_MODEL_SLOT2_ADDR   0x10057000
-#define FLASH_MODEL_SLOT2_SIZE   (40 * 1024)
-#define FLASH_CONFIG_ADDR        0x10061000
-#define FLASH_CONFIG_SIZE        (16 * 1024)
+/* Flash 地址定义（从 app_cfg_ota.h 获取） */
+#include "app_cfg_ota.h"
 
 /* 当前运行区 */
 #define CURRENT_APP_ADDR         FLASH_APP_A_ADDR

@@ -29,35 +29,42 @@
 #ifndef __BOARDS_H__
 #define __BOARDS_H__
 
-#if 0  /* 0: Legacy Board, 1: For BCT-32F67575 or BM53A595A                                                 */
-// HT32F67575 SoC Development Board
+/* 选择板级支持包版本：
+ *   0 = Legacy Board（旧版 HT32F67575/95 评估板）
+ *   1 = Modern Board（新版 BCT-32F67575 / BM53A595A / 用户自定义 LGA28 板）
+ */
+#ifndef USE_LEGACY_BOARD
+#define USE_LEGACY_BOARD      (0)
+#endif
+
+#if USE_LEGACY_BOARD
+/* ---- Legacy 板 ---- */
 #if defined(HT32F67575_EVB)
     #include "ht32f67575_evb_legacy.h"
 
-// HT32F67595 SoC Socket Development Board
 #elif defined(HT32F67595_EVB)
     #include "ht32f67595_evb_legacy.h"
+
 #elif defined(HT32F67595_USER)
     #include "ht32f67595_user.h"
-// Undefine board
+
 #else
-    #error "Undefine board config"
+    #error "Undefine board config (legacy): set HT32F67575_EVB / HT32F67595_EVB / HT32F67595_USER"
 #endif
+
 #else
-// HT32F67575 SoC Development Board (BCT-32F67575)
+/* ---- Modern 板（默认） ---- */
 #if defined(HT32F67575_EVB)
     #include "ht32f67575_evb.h"
 
-// HT32F67595 SoC BMduino Board (BM53A595A)
 #elif defined(HT32F67595_EVB)
     #include "ht32f67595_evb.h"
 
-// HT32F67595 custom LGA28 board (user schematic)
 #elif defined(HT32F67595_USER)
     #include "ht32f67595_user.h"
-// Undefine board
+
 #else
-    #error "Undefine board config"
+    #error "Undefine board config: set HT32F67575_EVB / HT32F67595_EVB / HT32F67595_USER"
 #endif
 #endif
 

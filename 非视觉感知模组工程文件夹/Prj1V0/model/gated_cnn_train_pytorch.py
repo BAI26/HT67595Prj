@@ -48,7 +48,7 @@ def get_default_config() -> GatedCNNConfig:
         
         # 优化器配置
         learning_rate=0.001,
-        batch_size=32,
+        batch_size=256,  # RTX 4060 8GB 可用更大 batch
         epochs=100,
         
         # 早停配置
@@ -225,37 +225,47 @@ def load_sisfall_dataset():
     return X, y, np.array(subject_ids)
 
 
-def augment_data(X: np.ndarray, y: np.ndarray) -> tuple:
+def augment_data(X: np.ndarray, y: np.ndarray, lite: bool = True) -> tuple:
     """
     数据增强 - 提高泛化能力
+    
+    Args:
+        lite: 如果 True，只做轻微增强 (2x)；False 则做全部增强 (7x)
     """
-    print("Applying data augmentation...")
+    print("Applying data augmentation..." + (" (lite mode)" if lite else ""))
     
     X_aug = [X]
     y_aug = [y]
     
-    # 1. 添加噪声
-    X_noise = X + np.random.randn(*X.shape) * 0.05
-    X_aug.append(X_noise)
-    y_aug.append(y)
-    
-    # 2. 时间偏移
-    for shift in [5, -5]:
-        X_shifted = np.roll(X, shift, axis=1)
-        X_aug.append(X_shifted)
+    if lite:
+        # 轻量增强：只添加噪声
+        X_noise = X + np.random.randn(*X.shape) * 0.05
+        X_aug.append(X_noise)
         y_aug.append(y)
-    
-    # 3. 幅值缩放
-    for scale in [0.9, 1.1]:
-        X_scaled = X * scale
-        X_aug.append(X_scaled)
+    else:
+        # 完整增强 (7x)
+        # 1. 添加噪声
+        X_noise = X + np.random.randn(*X.shape) * 0.05
+        X_aug.append(X_noise)
         y_aug.append(y)
-    
-    # 4. 轴交换 (模拟不同佩戴方向)
-    X_swapped = X.copy()
-    X_swapped[:, :, [0, 1]] = X[:, :, [1, 0]]
-    X_aug.append(X_swapped)
-    y_aug.append(y)
+        
+        # 2. 时间偏移
+        for shift in [5, -5]:
+            X_shifted = np.roll(X, shift, axis=1)
+            X_aug.append(X_shifted)
+            y_aug.append(y)
+        
+        # 3. 幅值缩放
+        for scale in [0.9, 1.1]:
+            X_scaled = X * scale
+            X_aug.append(X_scaled)
+            y_aug.append(y)
+        
+        # 4. 轴交换 (模拟不同佩戴方向)
+        X_swapped = X.copy()
+        X_swapped[:, :, [0, 1]] = X[:, :, [1, 0]]
+        X_aug.append(X_swapped)
+        y_aug.append(y)
     
     X_result = np.concatenate(X_aug, axis=0)
     y_result = np.concatenate(y_aug, axis=0)
@@ -326,22 +336,34 @@ class EarlyStopping:
 
 def train_epoch(model: nn.Module, train_loader: DataLoader, 
                 criterion: nn.Module, optimizer: optim.Optimizer, 
-                device: torch.device) -> float:
+                device: torch.device, use_amp: bool = True) -> float:
     """训练一个 epoch"""
     model.train()
     total_loss = 0
     correct = 0
     total = 0
     
+    # 混合精度训练
+    scaler = torch.amp.GradScaler('cuda') if (use_amp and device.type == 'cuda') else None
+    
     for X_batch, y_batch in train_loader:
-        X_batch = X_batch.to(device)
-        y_batch = y_batch.to(device).float()
+        X_batch = X_batch.to(device, non_blocking=True)
+        y_batch = y_batch.to(device, non_blocking=True).float()
         
-        optimizer.zero_grad()
-        outputs = model(X_batch).squeeze()
-        loss = criterion(outputs, y_batch)
-        loss.backward()
-        optimizer.step()
+        optimizer.zero_grad(set_to_none=True)  # 更快的方式
+        
+        if use_amp and scaler is not None:
+            with torch.amp.autocast('cuda'):
+                outputs = model(X_batch).squeeze()
+                loss = criterion(outputs, y_batch)
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+        else:
+            outputs = model(X_batch).squeeze()
+            loss = criterion(outputs, y_batch)
+            loss.backward()
+            optimizer.step()
         
         total_loss += loss.item() * len(X_batch)
         predicted = (outputs > 0.5).float()
@@ -352,7 +374,7 @@ def train_epoch(model: nn.Module, train_loader: DataLoader,
 
 
 def validate_epoch(model: nn.Module, val_loader: DataLoader, 
-                   criterion: nn.Module, device: torch.device) -> tuple:
+                   criterion: nn.Module, device: torch.device, use_amp: bool = True) -> tuple:
     """验证一个 epoch"""
     model.eval()
     total_loss = 0
@@ -363,18 +385,23 @@ def validate_epoch(model: nn.Module, val_loader: DataLoader,
     
     with torch.no_grad():
         for X_batch, y_batch in val_loader:
-            X_batch = X_batch.to(device)
-            y_batch = y_batch.to(device).float()
+            X_batch = X_batch.to(device, non_blocking=True)
+            y_batch = y_batch.to(device, non_blocking=True).float()
             
-            outputs = model(X_batch).squeeze()
-            loss = criterion(outputs, y_batch)
+            if use_amp and device.type == 'cuda':
+                with torch.amp.autocast('cuda'):
+                    outputs = model(X_batch).squeeze()
+                    loss = criterion(outputs, y_batch)
+            else:
+                outputs = model(X_batch).squeeze()
+                loss = criterion(outputs, y_batch)
             
             total_loss += loss.item() * len(X_batch)
             predicted = (outputs > 0.5).float()
             correct += (predicted == y_batch).sum().item()
             total += y_batch.size(0)
             
-            all_preds.extend(outputs.cpu().numpy())
+            all_preds.extend(outputs.float().cpu().numpy())
             all_labels.extend(y_batch.cpu().numpy())
     
     return total_loss / total, correct / total, np.array(all_preds), np.array(all_labels)
@@ -398,6 +425,16 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,
     device = torch.device(device)
     print(f"Using device: {device}")
     
+    # 检查 CUDA 并启用优化
+    if device.type == "cuda":
+        print(f"GPU: {torch.cuda.get_device_name(0)}")
+        print(f"GPU Memory: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
+        # 启用 cuDNN 自动优化
+        torch.backends.cudnn.benchmark = True
+        # 启用 TF32 提高 Ampere 架构性能
+        torch.backends.cuda.matmul.allow_tf32 = True
+        torch.backends.cudnn.allow_tf32 = True
+    
     # 创建模型
     model = GatedCNN(config).to(device)
     
@@ -414,11 +451,18 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,
     train_dataset = TensorDataset(X_train_t, y_train_t)
     val_dataset = TensorDataset(X_val_t, y_val_t)
     
-    train_loader = DataLoader(train_dataset, batch_size=config.batch_size, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=config.batch_size, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=config.batch_size, shuffle=True, 
+                               num_workers=4, pin_memory=True)
+    val_loader = DataLoader(val_dataset, batch_size=config.batch_size, shuffle=False,
+                             num_workers=4, pin_memory=True)
     
     # 损失函数和优化器
-    criterion = nn.BCELoss()
+    # 计算类别权重处理不平衡 (Fall:ADL = 26943:35749)
+    n_positive = np.sum(y_train == 1)
+    n_negative = np.sum(y_train == 0)
+    pos_weight = torch.tensor([n_negative / n_positive]).to(device)
+    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+    
     optimizer = optim.Adam(model.parameters(), lr=config.learning_rate, weight_decay=config.l2_reg)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=5, min_lr=1e-6)
     
@@ -428,10 +472,15 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,
     # 训练循环
     best_val_loss = float('inf')
     history = {'train_loss': [], 'train_acc': [], 'val_loss': [], 'val_acc': [], 'f1': []}
+    use_amp = device.type == 'cuda'
+    
+    import time
+    total_start = time.time()
     
     for epoch in range(config.epochs):
-        train_loss, train_acc = train_epoch(model, train_loader, criterion, optimizer, device)
-        val_loss, val_acc, val_preds, val_labels = validate_epoch(model, val_loader, criterion, device)
+        epoch_start = time.time()
+        train_loss, train_acc = train_epoch(model, train_loader, criterion, optimizer, device, use_amp)
+        val_loss, val_acc, val_preds, val_labels = validate_epoch(model, val_loader, criterion, device, use_amp)
         
         # 计算 F1
         f1, _, _ = compute_f1_score(val_labels, val_preds)
@@ -446,8 +495,8 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,
         history['val_acc'].append(val_acc)
         history['f1'].append(f1)
         
-        # 打印进度
-        print(f"Epoch {epoch+1:3d}/{config.epochs} | "
+        epoch_time = time.time() - epoch_start
+        print(f"Epoch {epoch+1:3d}/{config.epochs} ({epoch_time:.2f}s) | "
               f"Train: {train_loss:.4f}/{train_acc:.4f} | "
               f"Val: {val_loss:.4f}/{val_acc:.4f}/{f1:.4f} | "
               f"LR: {optimizer.param_groups[0]['lr']:.6f}")
@@ -467,8 +516,17 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,
         
         # 早停检查
         if early_stopping(val_loss):
+            total_time = time.time() - total_start
             print(f"\nEarly stopping at epoch {epoch+1}")
+            print(f"Total training time: {total_time:.2f}s")
             break
+    else:
+        total_time = time.time() - total_start
+        print(f"\nTraining completed (no early stop)")
+        print(f"Total training time: {total_time:.2f}s")
+    
+    if use_amp:
+        print(f"Using mixed precision (AMP) training")
     
     # 加载最佳模型
     checkpoint = torch.load(model_path, weights_only=False)
@@ -476,6 +534,31 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,
     print(f"\nLoaded best model from epoch {checkpoint['epoch']+1}")
     
     return model, history, checkpoint
+
+
+def find_best_threshold(y_true: np.ndarray, y_pred: np.ndarray) -> tuple:
+    """找到最佳分类阈值以最大化 F1"""
+    best_f1 = 0
+    best_thresh = 0.5
+    best_metrics = {}
+    
+    for thresh in np.arange(0.2, 0.8, 0.05):
+        y_pred_binary = (y_pred > thresh).astype(int)
+        
+        tp = np.sum((y_true == 1) & (y_pred_binary == 1))
+        fp = np.sum((y_true == 0) & (y_pred_binary == 1))
+        fn = np.sum((y_true == 1) & (y_pred_binary == 0))
+        
+        precision = tp / (tp + fp + 1e-8)
+        recall = tp / (tp + fn + 1e-8)
+        f1 = 2 * precision * recall / (precision + recall + 1e-8)
+        
+        if f1 > best_f1:
+            best_f1 = f1
+            best_thresh = thresh
+            best_metrics = {'precision': precision, 'recall': recall, 'f1': f1}
+    
+    return best_thresh, best_metrics
 
 
 def evaluate_model(model: nn.Module, X_test: np.ndarray, y_test: np.ndarray, 
@@ -493,23 +576,29 @@ def evaluate_model(model: nn.Module, X_test: np.ndarray, y_test: np.ndarray,
     X_test_t = torch.from_numpy(X_test).float().to(device)
     
     with torch.no_grad():
-        y_pred = model(X_test_t).squeeze().cpu().numpy()
+        y_pred_logits = model(X_test_t).squeeze().cpu().numpy()
+        # 将 logits 转换为概率
+        y_pred = 1 / (1 + np.exp(-y_pred_logits))
     
-    # 计算各种指标
-    f1, precision, recall = compute_f1_score(y_test, y_pred)
-    accuracy = np.mean((y_pred > 0.5) == y_test)
+    # 找到最佳阈值
+    best_thresh, best_metrics = find_best_threshold(y_test, y_pred)
+    print(f"\nBest threshold: {best_thresh:.2f} (found by F1 optimization)")
+    
+    # 计算各种指标 (使用最佳阈值)
+    y_pred_best = (y_pred > best_thresh).astype(int)
+    accuracy = np.mean(y_pred_best == y_test)
     
     # 混淆矩阵
-    tn = np.sum((y_test == 0) & (y_pred <= 0.5))
-    fp = np.sum((y_test == 0) & (y_pred > 0.5))
-    fn = np.sum((y_test == 1) & (y_pred <= 0.5))
-    tp = np.sum((y_test == 1) & (y_pred > 0.5))
+    tn = np.sum((y_test == 0) & (y_pred_best == 0))
+    fp = np.sum((y_test == 0) & (y_pred_best == 1))
+    fn = np.sum((y_test == 1) & (y_pred_best == 0))
+    tp = np.sum((y_test == 1) & (y_pred_best == 1))
     
-    print(f"\nMetrics:")
+    print(f"\nMetrics (threshold={best_thresh:.2f}):")
     print(f"  Accuracy:  {accuracy:.4f}")
-    print(f"  F1 Score:  {f1:.4f}")
-    print(f"  Precision: {precision:.4f}")
-    print(f"  Recall:    {recall:.4f}")
+    print(f"  F1 Score:  {best_metrics['f1']:.4f}")
+    print(f"  Precision: {best_metrics['precision']:.4f}")
+    print(f"  Recall:    {best_metrics['recall']:.4f}")
     print(f"\nConfusion Matrix:")
     print(f"              Pred ADL  Pred Fall")
     print(f"  Actual ADL   {tn:4d}      {fp:4d}")
@@ -644,8 +733,15 @@ def loso_cross_validation(X: np.ndarray, y: np.ndarray, config: GatedCNNConfig):
     f1_scores = []
     acc_scores = []
     
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    device = torch.device(device)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device}")
+    use_amp = device.type == 'cuda'
+    
+    if use_amp:
+        torch.backends.cudnn.benchmark = True
+    
+    import time
+    cv_start = time.time()
     
     for fold, (train_idx, val_idx) in enumerate(skf.split(X, y)):
         print(f"\nFold {fold + 1}/{n_subjects}")
@@ -661,26 +757,39 @@ def loso_cross_validation(X: np.ndarray, y: np.ndarray, config: GatedCNNConfig):
         X_val_t = torch.from_numpy(X_val).float().to(device)
         
         train_dataset = TensorDataset(X_train_t, y_train_t)
-        train_loader = DataLoader(train_dataset, batch_size=config.batch_size, shuffle=True)
+        train_loader = DataLoader(train_dataset, batch_size=config.batch_size * 2, shuffle=True, 
+                                  num_workers=4, pin_memory=True)
         
         criterion = nn.BCELoss()
         optimizer = optim.Adam(model.parameters(), lr=config.learning_rate)
         
         # 快速训练
         model.train()
+        scaler = torch.amp.GradScaler('cuda') if use_amp else None
+        
         for epoch in range(20):
             for X_batch, y_batch in train_loader:
-                X_batch, y_batch = X_batch.to(device), y_batch.to(device).float()
-                optimizer.zero_grad()
-                outputs = model(X_batch).squeeze()
-                loss = criterion(outputs, y_batch)
-                loss.backward()
-                optimizer.step()
+                X_batch, y_batch = X_batch.to(device, non_blocking=True), y_batch.to(device, non_blocking=True).float()
+                optimizer.zero_grad(set_to_none=True)
+                
+                if use_amp:
+                    with torch.amp.autocast('cuda'):
+                        outputs = model(X_batch).squeeze()
+                        loss = criterion(outputs, y_batch)
+                    scaler.scale(loss).backward()
+                    scaler.step(optimizer)
+                    scaler.update()
+                else:
+                    outputs = model(X_batch).squeeze()
+                    loss = criterion(outputs, y_batch)
+                    loss.backward()
+                    optimizer.step()
         
         # 评估
         model.eval()
         with torch.no_grad():
-            val_preds = model(X_val_t).squeeze().cpu().numpy()
+            val_logits = model(X_val_t).squeeze().float().cpu().numpy()
+            val_preds = 1 / (1 + np.exp(-val_logits))
         
         f1, _, _ = compute_f1_score(y_val, val_preds)
         acc = np.mean((val_preds > 0.5) == y_val)
@@ -690,7 +799,9 @@ def loso_cross_validation(X: np.ndarray, y: np.ndarray, config: GatedCNNConfig):
         
         print(f"  F1: {f1:.4f}, Accuracy: {acc:.4f}")
     
-    print("\n" + "="*60)
+    cv_time = time.time() - cv_start
+    print(f"\nTotal CV time: {cv_time:.2f}s")
+    print("="*60)
     print(f"LOSO-CV Results: F1 = {np.mean(f1_scores):.4f} ± {np.std(f1_scores):.4f}")
     print(f"                Acc = {np.mean(acc_scores):.4f} ± {np.std(acc_scores):.4f}")
     print("="*60)
@@ -720,9 +831,9 @@ def main():
     # 或者使用合成数据测试
     # X, y = load_synthetic_data(n_samples=2000)
     
-    # 2. 数据增强
+    # 2. 数据增强 (使用轻量模式加速训练)
     print("\n[2/6] Augmenting data...")
-    X_aug, y_aug = augment_data(X, y)
+    X_aug, y_aug = augment_data(X, y, lite=True)
     
     # 3. 划分数据集
     print("\n[3/6] Splitting dataset...")

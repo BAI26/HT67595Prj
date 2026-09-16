@@ -51,11 +51,6 @@ MLOG_ID_USED:  0x8000~0x8019
 #endif
 
 /**
- * @brief  EXTERN VARIABLES
- */
-extern struct OS_TSK os_tsk;
-
-/**
  * @brief  NMI_Handler_Proc
  * @param  u32ExcReturn:
  * @param  u32Msp:

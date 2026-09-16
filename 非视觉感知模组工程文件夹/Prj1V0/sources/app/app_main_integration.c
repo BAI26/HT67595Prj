@@ -10,6 +10,9 @@
 #include "ble_ota_service.h"
 #include "imu9dof.h"
 #include "lpwr_ctrl.h"
+#include "utility.h"
+#include "ARMCM33_DSP_FP.h"
+#include <stdio.h>
 #include <string.h>
 
 /* 特征提取缓冲区 */

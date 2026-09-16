@@ -72,6 +72,10 @@ typedef struct {
     uint8_t            *output_buffer;
 } model_inference_handle_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* 全局句柄 */
 extern model_inference_handle_t g_model_handle;
 
@@ -88,7 +92,7 @@ int model_load_from_memory(const uint8_t *model_data, uint32_t size);
 int model_run_inference(const float *input_data, uint16_t input_len, model_result_t *result);
 
 /* 特征提取 */
-int model_extract_features(const float *raw_accel, const float *raw_gyro, 
+int model_extract_features(const float *raw_accel, const float *raw_gyro,
                           uint16_t sample_count, float *features);
 
 /* 模型信息 */
@@ -105,5 +109,9 @@ uint32_t model_get_avg_inference_time(void);
 
 /* 调试 */
 void model_dump_info(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MODEL_INFERENCE_H */

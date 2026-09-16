@@ -1,7 +1,7 @@
 /**
  * @file    gated_cnn_model_data.h
  * @brief   Gated-CNN 跌倒检测模型数据
- * @date    2026-08-25
+ * @date    2026-08-26
  * 
  * Model: Gated-CNN (PyTorch)
  * Input:  [100, 6] - 1秒 @ 100Hz, 6轴IMU

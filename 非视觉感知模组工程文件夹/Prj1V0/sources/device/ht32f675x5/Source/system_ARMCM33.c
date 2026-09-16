@@ -27,6 +27,7 @@
 
 
 #include "ARMCM33_DSP_FP.h"
+#include "hw_wdt.h"
 
 
 /*----------------------------------------------------------------------------
@@ -51,6 +52,14 @@ uint32_t __NEW_VECTOR_TABLE[PERI_IRQ_NUM_MAX + 16] __attribute__((aligned(512), 
  *----------------------------------------------------------------------------*/
 void SystemInit (void)
 {
+  /*-----------------------------------------------------------------------
+   * 在 C 库初始化之前禁用 WDT0，防止单步调试时 WDT 超时复位。
+   * 单步调试每条指令之间的 debugger overhead 可能长达数毫秒，
+   * WDT 在 main() 执行前就已触发复位，导致程序卡在 __rt_lib_init_* 处。
+   * 此处关闭 WDT 可确保单步调试全流程正常。
+  *-----------------------------------------------------------------------*/
+  rom_hw_wdt_disable(WDT0);
+
 #if defined (__VTOR_PRESENT) && (__VTOR_PRESENT == 1U)
     #if MP_REMAP_ENABLE
         uint32_t u32VectorIndex = 0;
